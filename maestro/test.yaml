@@ -1,0 +1,6 @@
+appId: com.bible.app
+---
+- launchApp:
+    clearState: true
+
+- assertVisible: "Tab One"
