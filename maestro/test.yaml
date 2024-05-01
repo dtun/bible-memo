@@ -8,10 +8,8 @@ appId: com.bible.app
 - tapOn: "Bible"
 - assertVisible: "Coming soon..."
 - assertVisible: "Read the Bible in multiple translations"
-- swipe:
-    direction: DOWN
+- tapOn: "Back"
 - tapOn: "Me"
 - assertVisible: "Coming soon..."
 - assertVisible: "Personalize your app and more"
-- swipe:
-    direction: DOWN
+- tapOn: "Back"

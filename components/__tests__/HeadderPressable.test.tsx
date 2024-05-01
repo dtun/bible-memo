@@ -1,0 +1,30 @@
+import * as React from "react";
+
+import { render, screen, userEvent } from "../../test-utils";
+import { HeaderPressable } from "../HeaderPressable";
+
+beforeAll(() => {
+  jest.useFakeTimers();
+});
+
+afterAll(() => {
+  jest.useRealTimers();
+});
+
+describe(`<HeaderPressable />`, () => {
+  it(`renders`, () => {
+    render(<HeaderPressable title="Snapshot test!" />);
+
+    expect(screen).toMatchSnapshot();
+  });
+
+  it(`calls onPress`, async () => {
+    const onPressSpy = jest.fn();
+
+    render(<HeaderPressable title="Press test!" onPress={onPressSpy} />);
+
+    await userEvent.press(screen.getByText("Press test!"));
+
+    expect(onPressSpy).toHaveBeenCalledTimes(1);
+  });
+});

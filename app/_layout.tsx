@@ -5,14 +5,13 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Pressable } from "react-native";
 import { Link, Stack } from "expo-router";
 export { ErrorBoundary } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
-import { Text } from "@/components/Themed";
 import { useColorScheme } from "@/components/useColorScheme";
+import { HeaderPressable } from "@/components/HeaderPressable";
 
 export const unstable_settings = {
   initialRouteName: "index",
@@ -54,31 +53,39 @@ function RootLayoutNav() {
             headerShadowVisible: false,
             headerRight: () => (
               <Link href="/me" asChild>
-                <Pressable>
-                  {({ pressed }) => (
-                    <Text style={{ opacity: pressed ? 0.5 : 1 }}>Me</Text>
-                  )}
-                </Pressable>
+                <HeaderPressable title="Me" />
               </Link>
             ),
             headerLeft: () => (
               <Link href="/bible" asChild>
-                <Pressable>
-                  {({ pressed }) => (
-                    <Text style={{ opacity: pressed ? 0.5 : 1 }}>Bible</Text>
-                  )}
-                </Pressable>
+                <HeaderPressable title="Bible" />
               </Link>
             ),
           }}
         />
         <Stack.Screen
           name="me"
-          options={{ presentation: "modal", headerTitle: "Me" }}
+          options={{
+            presentation: "modal",
+            headerTitle: "Me",
+            headerLeft: () => (
+              <Link href="/" asChild>
+                <HeaderPressable title="Back" />
+              </Link>
+            ),
+          }}
         />
         <Stack.Screen
           name="bible"
-          options={{ presentation: "modal", headerTitle: "Bible" }}
+          options={{
+            presentation: "modal",
+            headerTitle: "Bible",
+            headerLeft: () => (
+              <Link href="/" asChild>
+                <HeaderPressable title="Back" />
+              </Link>
+            ),
+          }}
         />
       </Stack>
     </ThemeProvider>
