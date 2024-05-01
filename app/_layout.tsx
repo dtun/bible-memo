@@ -66,7 +66,6 @@ function RootLayoutNav() {
         <Stack.Screen
           name="me"
           options={{
-            presentation: "modal",
             headerTitle: "Me",
             headerLeft: () => (
               <Link href="/" asChild>
@@ -78,7 +77,6 @@ function RootLayoutNav() {
         <Stack.Screen
           name="bible"
           options={{
-            presentation: "modal",
             headerTitle: "Bible",
             headerLeft: () => (
               <Link href="/" asChild>

@@ -1,5 +1,4 @@
-import { StatusBar } from "expo-status-bar";
-import { Platform, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 
 import { Text, View } from "@/components/Themed";
 
@@ -13,8 +12,6 @@ export default function BibleScreen() {
         darkColor="rgba(255,255,255,0.1)"
       />
       <Text style={styles.body}>Read the Bible in multiple translations</Text>
-      {/* Use a light status bar on iOS to account for the black space above the modal */}
-      <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
     </View>
   );
 }
