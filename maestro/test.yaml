@@ -3,4 +3,15 @@ appId: com.bible.app
 - launchApp:
     clearState: true
 
-- assertVisible: "Tab One"
+- assertVisible: "Coming soon..."
+- assertVisible: "Free resources for memorizing scripture"
+- tapOn: "Bible"
+- assertVisible: "Coming soon..."
+- assertVisible: "Read the Bible in multiple translations"
+- swipe:
+    direction: DOWN
+- tapOn: "Me"
+- assertVisible: "Coming soon..."
+- assertVisible: "Personalize your app and more"
+- swipe:
+    direction: DOWN
