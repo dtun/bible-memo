@@ -1,4 +1,4 @@
-name: test
+name: Test
 
 on: [push]
 
@@ -8,24 +8,27 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
-      - name: Checkout
+      - name: 🏗 Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: 🏗 Setup Node
         uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: npm
 
-      - name: Restore Node Modules Cache
+      - name: 🏗 Restore Cache
         uses: actions/cache@v3
         id: node-modules-cache
         with:
           path: ./node_modules
           key: ${{ runner.os }}-node-modules-cache-${{ hashFiles('package-lock.json') }}
 
-      - name: Install
+      - name: 📦 Install
         run: npm i
 
-      - name: Typecheck
+      - name: ✅ Typecheck
         run: npm run tsc
 
-      - name: Test
+      - name: 📋 Test
         run: npm run testFinal
