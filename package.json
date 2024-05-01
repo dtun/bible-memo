@@ -30,7 +30,8 @@
       "!**/mocks/**",
       "!**/test-utils/**",
       "!**/builders/**",
-      "!**/expo-env.d.ts"
+      "!**/expo-env.d.ts",
+      "!**/app/**"
     ],
     "transformIgnorePatterns": [
       "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|@unimodules/.*|unimodules|sentry-expo)"
