@@ -9,6 +9,7 @@ import { Link, Stack } from "expo-router";
 export { ErrorBoundary } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { useColorScheme } from "@/components/useColorScheme";
 import { HeaderPressable } from "@/components/HeaderPressable";
@@ -40,52 +41,56 @@ export default function RootLayout() {
   return <RootLayoutNav />;
 }
 
+const queryClient = new QueryClient();
+
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen
-          name="index"
-          options={{
-            headerTitle: "",
-            headerShadowVisible: false,
-            headerRight: () => (
-              <Link href="/me" asChild>
-                <HeaderPressable title="Me" />
-              </Link>
-            ),
-            headerLeft: () => (
-              <Link href="/bible" asChild>
-                <HeaderPressable title="Bible" />
-              </Link>
-            ),
-          }}
-        />
-        <Stack.Screen
-          name="me"
-          options={{
-            headerTitle: "Me",
-            headerLeft: () => (
-              <Link href="/" asChild>
-                <HeaderPressable title="Back" />
-              </Link>
-            ),
-          }}
-        />
-        <Stack.Screen
-          name="bible"
-          options={{
-            headerTitle: "Bible",
-            headerLeft: () => (
-              <Link href="/" asChild>
-                <HeaderPressable title="Back" />
-              </Link>
-            ),
-          }}
-        />
-      </Stack>
+      <QueryClientProvider client={queryClient}>
+        <Stack>
+          <Stack.Screen
+            name="index"
+            options={{
+              headerTitle: "",
+              headerShadowVisible: false,
+              headerRight: () => (
+                <Link href="/me" asChild>
+                  <HeaderPressable title="Me" />
+                </Link>
+              ),
+              headerLeft: () => (
+                <Link href="/bible" asChild>
+                  <HeaderPressable title="Bible" />
+                </Link>
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="me"
+            options={{
+              headerTitle: "Me",
+              headerLeft: () => (
+                <Link href="/" asChild>
+                  <HeaderPressable title="Back" />
+                </Link>
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="bible"
+            options={{
+              headerTitle: "Bible",
+              headerLeft: () => (
+                <Link href="/" asChild>
+                  <HeaderPressable title="Back" />
+                </Link>
+              ),
+            }}
+          />
+        </Stack>
+      </QueryClientProvider>
     </ThemeProvider>
   );
 }
