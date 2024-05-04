@@ -11,6 +11,7 @@ import * as SplashScreen from "expo-splash-screen";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+import { books } from "@/constants/Books";
 import { useColorScheme } from "@/components/useColorScheme";
 import { HeaderPressable } from "@/components/HeaderPressable";
 
@@ -79,6 +80,10 @@ function RootLayoutNav() {
             }}
           />
           <Stack.Screen
+            initialParams={{
+              book: books.GENESIS,
+              chapter: 1,
+            }}
             name="bible"
             options={{
               headerTitle: "Bible",

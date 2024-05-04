@@ -1,8 +1,23 @@
+import { useEffect } from "react";
 import { StyleSheet } from "react-native";
+import { useLocalSearchParams, useNavigation } from "expo-router";
 
 import { Text, View } from "@/components/Themed";
+import { formatScreenTitle } from "@/utils/bible";
 
 export default function BibleScreen() {
+  let { setOptions } = useNavigation();
+  let { book, chapter } = useLocalSearchParams<{
+    book: string;
+    chapter: string;
+  }>();
+
+  useEffect(() => {
+    setOptions({
+      headerTitle: formatScreenTitle(`${book} ${chapter}`),
+    });
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Coming soon...</Text>
