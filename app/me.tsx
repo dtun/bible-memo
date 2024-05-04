@@ -16,7 +16,7 @@ export default function MeScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+let styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",

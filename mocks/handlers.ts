@@ -1,16 +1,18 @@
 import { http, HttpResponse } from "msw";
 
-import { baseUrl } from "@/api/bible";
+import { BASE_URL } from "@/api/bible";
 import {
   bibleTranslations,
   bibleTranslationBuilder,
 } from "@/builders/bibleTranslation";
 
-export const handlers = [
-  http.get(`${baseUrl}/bibles`, () => {
+let handlers = [
+  http.get(`${BASE_URL}/bibles`, () => {
     return HttpResponse.json({ data: bibleTranslations });
   }),
-  http.get(`${baseUrl}/bibles/:id`, () => {
+  http.get(`${BASE_URL}/bibles/:id`, () => {
     return HttpResponse.json({ data: bibleTranslationBuilder });
   }),
 ];
+
+export { handlers };

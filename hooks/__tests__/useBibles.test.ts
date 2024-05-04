@@ -5,7 +5,7 @@ import { useBibles } from "../useBibles";
 
 describe("useBibles", () => {
   it("renders", async () => {
-    const { result } = renderHook(() => useBibles(), {
+    let { result } = renderHook(() => useBibles(), {
       wrapper: AllTheProviders,
     });
 

@@ -2,7 +2,7 @@ import { build, perBuild, oneOf } from "@jackfranklin/test-data-bot";
 import { faker } from "@faker-js/faker";
 import { BibleTranslation } from "@/types";
 
-export const bibleTranslationBuilder = build<BibleTranslation>({
+export let bibleTranslationBuilder = build<BibleTranslation>({
   fields: {
     id: perBuild(faker.string.uuid),
     dblId: perBuild(faker.string.uuid),
@@ -33,6 +33,6 @@ export const bibleTranslationBuilder = build<BibleTranslation>({
   },
 });
 
-export const bibleTranslations = {
+export let bibleTranslations = {
   50: [...new Array(50)].map(bibleTranslationBuilder),
 };

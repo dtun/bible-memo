@@ -1,8 +1,8 @@
 import type { BibleTranslation } from "@/types";
 
-export const baseUrl = "https://api.scripture.api.bible/v1";
+export const BASE_URL = "https://api.scripture.api.bible/v1";
 
-const sharedConfig = {
+let sharedConfig = {
   headers: {
     "Content-Type": "application/json",
     "api-key": `${process.env.EXPO_PUBLIC_API_BIBLE_KEY}`,
@@ -10,21 +10,21 @@ const sharedConfig = {
 };
 
 async function getBibles(): Promise<BibleTranslation[]> {
-  const response = await fetch(`${baseUrl}/bibles`, {
+  let response = await fetch(`${BASE_URL}/bibles`, {
     ...sharedConfig,
     method: "GET",
   });
-  const { data } = await response.json();
+  let { data } = await response.json();
 
   return data;
 }
 
 async function getBible(id: string): Promise<BibleTranslation> {
-  const response = await fetch(`${baseUrl}/bibles/${id}`, {
+  let response = await fetch(`${BASE_URL}/bibles/${id}`, {
     ...sharedConfig,
     method: "GET",
   });
-  const { data } = await response.json();
+  let { data } = await response.json();
 
   return data;
 }

@@ -3,11 +3,11 @@ import { AllTheProviders } from "@/test-utils";
 import { bibleTranslationBuilder } from "@/builders/bibleTranslation";
 import { useBible } from "../useBible";
 
-const bible = bibleTranslationBuilder();
+let bible = bibleTranslationBuilder();
 
 describe("useBible", () => {
   it("renders", async () => {
-    const { result } = renderHook(() => useBible(bible.id), {
+    let { result } = renderHook(() => useBible(bible.id), {
       wrapper: AllTheProviders,
     });
 

@@ -12,7 +12,7 @@ function SafeTop(props: WithSafeAreaInsetsProps) {
   return <View style={{ height: props.insets.top }} />;
 }
 
-export const SafeSpace = {
+export let SafeSpace = {
   Top: withSafeAreaInsets(SafeTop),
   Bottom: withSafeAreaInsets(SafeBottom),
 };

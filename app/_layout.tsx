@@ -15,7 +15,7 @@ import { books } from "@/constants/Books";
 import { useColorScheme } from "@/components/useColorScheme";
 import { HeaderPressable } from "@/components/HeaderPressable";
 
-export const unstable_settings = {
+export let unstable_settings = {
   initialRouteName: "index",
 };
 
@@ -23,7 +23,7 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [loaded, error] = useFonts({
+  let [loaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
   });
@@ -42,10 +42,10 @@ export default function RootLayout() {
   return <RootLayoutNav />;
 }
 
-const queryClient = new QueryClient();
+let queryClient = new QueryClient();
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
+  let colorScheme = useColorScheme();
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>

@@ -1,6 +1,7 @@
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { getBibles } from "@/api/bible";
 import type { BibleTranslation } from "@/types";
+
 import { queryKey } from "./useBibles";
 
 function useBible(id: string, options?: UseQueryOptions<BibleTranslation[]>) {

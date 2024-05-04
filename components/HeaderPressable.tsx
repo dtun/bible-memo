@@ -3,7 +3,7 @@ import { Pressable } from "react-native";
 
 import { Text } from "@/components/Themed";
 
-const HeaderPressable = forwardRef(function HeaderPressable(
+let HeaderPressable = forwardRef(function HeaderPressable(
   {
     onPress,
     title,

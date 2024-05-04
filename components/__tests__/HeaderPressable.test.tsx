@@ -19,7 +19,7 @@ describe(`<HeaderPressable />`, () => {
   });
 
   it(`calls onPress`, async () => {
-    const onPressSpy = jest.fn();
+    let onPressSpy = jest.fn();
 
     render(<HeaderPressable title="Press test!" onPress={onPressSpy} />);
 
