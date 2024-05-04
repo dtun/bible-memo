@@ -1,5 +1,0 @@
-appId: com.bible.app
----
-- runFlow: launch.yaml
-- runFlow: read.yaml
-- runFlow: me.yaml

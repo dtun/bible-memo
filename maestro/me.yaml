@@ -1,5 +1,6 @@
 appId: com.bible.app
 ---
+- launchApp
 - tapOn:
     text: "Me"
 - assertVisible: "Personalize your app and more"

@@ -1,3 +1,5 @@
 appId: com.bible.app
 ---
 - launchApp
+- assertVisible: "Coming soon..."
+- assertVisible: "Free resources for memorizing scripture"
