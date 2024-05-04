@@ -18,4 +18,7 @@ else
 fi
 
 MAESTRO_API_KEY=$MAESTRO_API_KEY
-maestro cloud --apiKey $MAESTRO_API_KEY $APP_EXECUTABLE_PATH maestro/test.yaml  
+maestro cloud --apiKey $MAESTRO_API_KEY $APP_EXECUTABLE_PATH maestro/launch.yaml
+maestro cloud --apiKey $MAESTRO_API_KEY $APP_EXECUTABLE_PATH maestro/me.yaml
+maestro cloud --apiKey $MAESTRO_API_KEY $APP_EXECUTABLE_PATH maestro/read.yaml
+maestro cloud --apiKey $MAESTRO_API_KEY $APP_EXECUTABLE_PATH maestro/test.yaml
