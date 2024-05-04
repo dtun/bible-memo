@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "eas-build-on-success": "bash ./scripts/eas-build-on-success.sh",
+    "eas-build-on-failure": "bash ./scripts/eas-build-on-failure.sh",
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
