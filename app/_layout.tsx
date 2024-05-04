@@ -62,7 +62,7 @@ function RootLayoutNav() {
               ),
               headerLeft: () => (
                 <Link href="/bible" asChild>
-                  <HeaderPressable title="Bible" />
+                  <HeaderPressable title="Read" />
                 </Link>
               ),
             }}

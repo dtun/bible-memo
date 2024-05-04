@@ -1,0 +1,7 @@
+appId: com.bible.app
+---
+- tapOn:
+    text: "Me"
+- assertVisible: "Personalize your app and more"
+- tapOn:
+    text: "Back"

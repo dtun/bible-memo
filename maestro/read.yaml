@@ -1,0 +1,7 @@
+appId: com.bible.app
+---
+- tapOn:
+    text: "Read"
+- assertVisible: "Read the Bible in multiple translations"
+- tapOn:
+    text: "Back"

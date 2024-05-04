@@ -1,15 +1,5 @@
 appId: com.bible.app
 ---
-- launchApp:
-    clearState: true
-
-- assertVisible: "Coming soon..."
-- assertVisible: "Free resources for memorizing scripture"
-- tapOn: "Bible"
-- assertVisible: "Coming soon..."
-- assertVisible: "Read the Bible in multiple translations"
-- tapOn: "Back"
-- tapOn: "Me"
-- assertVisible: "Coming soon..."
-- assertVisible: "Personalize your app and more"
-- tapOn: "Back"
+- runFlow: launch.yaml
+- runFlow: read.yaml
+- runFlow: me.yaml
