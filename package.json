@@ -13,7 +13,7 @@
     "test": "jest --watch --coverage=false --changedSince=origin/main",
     "testDebug": "jest -o --watch --coverage=false",
     "testFinal": "jest",
-    "tsc": "tsc"
+    "typecheck": "tsc"
   },
   "jest": {
     "preset": "jest-expo",

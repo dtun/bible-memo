@@ -28,7 +28,7 @@ jobs:
         run: npm i
 
       - name: ✅ Typecheck
-        run: npm run tsc
+        run: npm run typecheck
 
       - name: 🤖 Test
         run: npm run testFinal
