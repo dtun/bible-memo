@@ -11,7 +11,7 @@ let handlers = [
     return HttpResponse.json({ data: bibleTranslations });
   }),
   http.get(`${BASE_URL}/bibles/:id`, () => {
-    return HttpResponse.json({ data: bibleTranslationBuilder });
+    return HttpResponse.json({ data: bibleTranslationBuilder() });
   }),
 ];
 
