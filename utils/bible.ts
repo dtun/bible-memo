@@ -1,7 +1,19 @@
-import { upperFirst } from "lodash";
+import type { BibleTranslation } from "@/types";
 
-function formatScreenTitle(s: string) {
-  return upperFirst(s);
+function filterBibles(bibles: BibleTranslation[]) {
+  return bibles.filter((b) => b.language.nameLocal === "English");
 }
 
-export { formatScreenTitle };
+function sortBibles(bibles: BibleTranslation[]) {
+  return bibles.sort((a, b) =>
+    a.abbreviationLocal.localeCompare(b.abbreviationLocal)
+  );
+}
+
+import { flowRight } from "lodash";
+
+function filterAndSortBibles(bibles: BibleTranslation[]) {
+  return flowRight(sortBibles, filterBibles)(bibles);
+}
+
+export { filterBibles, sortBibles, filterAndSortBibles };
