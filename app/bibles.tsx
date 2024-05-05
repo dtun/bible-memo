@@ -5,7 +5,6 @@ import {
   Platform,
   Pressable,
   StyleSheet,
-  ActivityIndicator,
 } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 
@@ -42,7 +41,7 @@ export default function BiblesScreen() {
         ListHeaderComponent={<Space height={8} />}
         ListEmptyComponent={() =>
           isFetching ? (
-            <ActivityIndicator size="large" style={styles.listEmpty} />
+            <Text style={[styles.body, styles.listEmpty]}>Loading...</Text>
           ) : (
             <Text style={[styles.body, styles.listEmpty]}>
               No bibles found.
@@ -62,14 +61,18 @@ function renderItem({
 }: ListRenderItemInfo<BibleTranslation & { selected: boolean }>) {
   return (
     <Pressable
+      accessibilityLabel={item.abbreviationLocal}
+      accessibilityRole="button"
       accessibilityState={{ selected: item.selected }}
+      hitSlop={24}
       onPress={() => {
-        router.replace(`/bible/${item.id}`);
+        queryClient.prefetchQuery(getBibleQuery(item.id));
+        router.back();
+        router.navigate(`/bible/${item.id}`);
       }}
-      onPressIn={() => {
-        queryClient.cancelQueries(getBibleQuery(item.id));
-      }}
-      style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
+      style={({ pressed }) => ({
+        opacity: pressed ? 0.5 : 1,
+      })}
     >
       <View
         lightColor="transparent"

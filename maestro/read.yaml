@@ -1,13 +1,17 @@
 appId: com.biblememo.app
 ---
+- clearState
 - launchApp
 - tapOn:
-    text: "Read"
-- assertVisible: "Bibles"
+    text: Read
+- assertVisible: Bibles
+- extendedWaitUntil:
+    notVisible:
+      text: Loading...
+    timeout: 2500
 - tapOn:
-    text: "The Holy Bible, American Standard Version"
-- assertVisible: "Genesis 1"
-- assertVisible: "The Holy Bible, American Standard Version"
-- assertVisible: "Coming soon..."
+    text: ASV
+- assertVisible: Genesis 1
+- assertVisible: Coming soon...
 - tapOn:
-    text: "Back"
+    text: Back
