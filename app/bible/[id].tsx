@@ -15,7 +15,7 @@ export default function BibleScreen() {
     chapter: string;
     id: string;
   }>();
-  let { data: bible, isFetching } = useBible(id);
+  let { data: bible, isFetching } = useBible(id!);
 
   useEffect(() => {
     setOptions({

@@ -77,7 +77,7 @@ function RootLayoutNav() {
             }}
           />
           <Stack.Screen
-            initialParams={{ book: books.GENESIS, chapter: 1 }}
+            initialParams={{ book: books.GENESIS, chapter: 1, id: "" }}
             name="bible/[id]"
             options={{
               headerTitle: "Bible",
