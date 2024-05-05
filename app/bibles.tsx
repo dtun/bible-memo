@@ -11,7 +11,7 @@ import { router, useLocalSearchParams } from "expo-router";
 
 import { Text, View } from "@/components/Themed";
 import { useBibles } from "@/hooks/useBibles";
-import { SafeSpace } from "@/components/SafeSpace";
+import { SafeSpaceBottom } from "@/components/Space";
 import { Space } from "@/components/Space";
 import { filterAndSortBibles } from "@/utils/bible";
 import { type BibleTranslation } from "@/types";
@@ -38,7 +38,7 @@ export default function BiblesScreen() {
             darkColor="rgba(255,255,255,0.1)"
           />
         )}
-        ListFooterComponent={SafeSpace.Bottom}
+        ListFooterComponent={SafeSpaceBottom}
         ListHeaderComponent={<Space height={8} />}
         ListEmptyComponent={() =>
           isFetching ? (
