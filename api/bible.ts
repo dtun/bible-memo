@@ -1,6 +1,6 @@
 import type { BibleTranslation } from "@/types";
 
-export const BASE_URL = "https://api.scripture.api.bible/v1";
+const BASE_URL = "https://api.scripture.api.bible/v1";
 
 let sharedConfig = {
   headers: {
@@ -29,4 +29,4 @@ async function getBible(id: string): Promise<BibleTranslation> {
   return data;
 }
 
-export { getBibles, getBible };
+export { BASE_URL, getBibles, getBible };
