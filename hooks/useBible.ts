@@ -1,12 +1,10 @@
-import { UseQueryOptions, useQuery } from "@tanstack/react-query";
-import { getBible } from "@/api/bible";
-import type { BibleTranslation } from "@/types";
+import { useQuery } from "@tanstack/react-query";
 
+import { getBible } from "@/api/bible";
 import { queryKey } from "./useBibles";
 
-function useBible(id: string, options?: UseQueryOptions<BibleTranslation>) {
+function useBible(id: string) {
   return useQuery({
-    ...options,
     queryFn: () => getBible(id),
     queryKey: [...queryKey, id],
     staleTime: Infinity,
