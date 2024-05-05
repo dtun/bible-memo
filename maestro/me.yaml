@@ -2,7 +2,7 @@ appId: com.biblememo.app
 ---
 - launchApp
 - tapOn:
-    text: "Me"
-- assertVisible: "Personalize your app and more"
+    text: Me
+- assertVisible: Personalize your app and more
 - tapOn:
-    text: "Back"
+    text: Back

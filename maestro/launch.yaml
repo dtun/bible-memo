@@ -1,5 +1,5 @@
 appId: com.biblememo.app
 ---
 - launchApp
-- assertVisible: "Coming soon..."
-- assertVisible: "Free resources for memorizing scripture"
+- assertVisible: Coming soon...
+- assertVisible: Free resources for memorizing scripture
