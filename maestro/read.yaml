@@ -10,7 +10,7 @@ appId: com.biblememo.app
       text: Loading...
     timeout: 2500
 - tapOn:
-    text: ASV
+    text: The Holy Bible, American Standard Version
 - assertVisible: Genesis 1
 - assertVisible: Coming soon...
 - tapOn:

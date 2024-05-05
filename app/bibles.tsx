@@ -61,7 +61,7 @@ function renderItem({
 }: ListRenderItemInfo<BibleTranslation & { selected: boolean }>) {
   return (
     <Pressable
-      accessibilityLabel={item.abbreviationLocal}
+      accessibilityLabel={item.nameLocal}
       accessibilityRole="button"
       accessibilityState={{ selected: item.selected }}
       hitSlop={24}
