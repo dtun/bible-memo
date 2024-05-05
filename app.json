@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "bible",
-    "slug": "bible",
+    "name": "BibleMemo",
+    "slug": "bible-memo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -14,7 +14,7 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "bundleIdentifier": "com.bible.app",
+      "bundleIdentifier": "com.biblememo.app",
       "supportsTablet": true
     },
     "android": {
@@ -22,7 +22,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.bible.app"
+      "package": "com.biblememo.app"
     },
     "web": {
       "bundler": "metro",

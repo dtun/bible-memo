@@ -1,4 +1,4 @@
-appId: com.bible.app
+appId: com.biblememo.app
 ---
 - launchApp
 - assertVisible: "Coming soon..."
