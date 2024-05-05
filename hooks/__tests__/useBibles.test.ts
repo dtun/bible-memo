@@ -1,6 +1,6 @@
 import { renderHook, waitFor } from "@testing-library/react-native";
 
-import { AllTheProviders } from "@/test-utils";
+import { AllTheProviders } from "@/components/AllTheProviders";
 import { useBibles } from "../useBibles";
 
 describe("useBibles", () => {

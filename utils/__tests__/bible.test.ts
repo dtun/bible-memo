@@ -1,4 +1,3 @@
-import { books } from "@/constants/Books";
 import { filterAndSortBibles } from "../bible";
 import { bibleTranslationBuilder } from "@/builders/bibleTranslation";
 
