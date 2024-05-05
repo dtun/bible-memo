@@ -5,7 +5,7 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Link, Stack } from "expo-router";
+import { Link, Stack, useRouter } from "expo-router";
 export { ErrorBoundary } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -42,9 +42,10 @@ export default function RootLayout() {
   return <RootLayoutNav />;
 }
 
-let queryClient = new QueryClient();
+export let queryClient = new QueryClient();
 
 function RootLayoutNav() {
+  let { back } = useRouter();
   let colorScheme = useColorScheme();
 
   return (
@@ -62,7 +63,7 @@ function RootLayoutNav() {
                 </Link>
               ),
               headerLeft: () => (
-                <Link href="/bible" asChild>
+                <Link href="/bibles" asChild>
                   <HeaderPressable title="Read" />
                 </Link>
               ),
@@ -72,6 +73,14 @@ function RootLayoutNav() {
             name="me"
             options={{
               headerTitle: "Me",
+              headerLeft: () => <HeaderPressable title="Back" onPress={back} />,
+            }}
+          />
+          <Stack.Screen
+            initialParams={{ book: books.GENESIS, chapter: 1 }}
+            name="bible/[id]"
+            options={{
+              headerTitle: "Bible",
               headerLeft: () => (
                 <Link href="/" asChild>
                   <HeaderPressable title="Back" />
@@ -80,17 +89,13 @@ function RootLayoutNav() {
             }}
           />
           <Stack.Screen
-            initialParams={{
-              book: books.GENESIS,
-              chapter: 1,
-            }}
-            name="bible"
+            initialParams={{ id: "" }}
+            name="bibles"
             options={{
-              headerTitle: "Bible",
+              presentation: "modal",
+              headerTitle: "Bibles",
               headerLeft: () => (
-                <Link href="/" asChild>
-                  <HeaderPressable title="Back" />
-                </Link>
+                <HeaderPressable title="Close" onPress={back} />
               ),
             }}
           />

@@ -3,8 +3,11 @@ appId: com.bible.app
 - launchApp
 - tapOn:
     text: "Read"
+- assertVisible: "Bibles"
+- tapOn:
+    text: "The Holy Bible, American Standard Version"
 - assertVisible: "Genesis 1"
+- assertVisible: "The Holy Bible, American Standard Version"
 - assertVisible: "Coming soon..."
-- assertVisible: "Read the Bible in multiple translations"
 - tapOn:
     text: "Back"
