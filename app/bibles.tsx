@@ -62,7 +62,7 @@ function renderItem({
   return (
     <Pressable
       accessibilityLabel={item.nameLocal}
-      accessibilityRole="button"
+      accessibilityRole="link"
       accessibilityState={{ selected: item.selected }}
       hitSlop={24}
       onPress={() => {
