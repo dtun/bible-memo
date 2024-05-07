@@ -4,13 +4,14 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { type ReactNode } from "react";
 
 import { useColorScheme } from "./useColorScheme";
 import { ProviderStack } from "./ProviderStack";
 
 export let queryClient = new QueryClient();
 
-function AllTheProviders({ children }: { children: React.ReactNode }) {
+function AllTheProviders({ children }: { children: ReactNode }) {
   let colorScheme = useColorScheme();
 
   return (

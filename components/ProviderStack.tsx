@@ -1,9 +1,9 @@
-import { JSXElementConstructor, ReactNode } from "react";
+import { JSXElementConstructor, type ReactNode } from "react";
 
 type NoInfer<T> = [T][T extends any ? 0 : 1];
 
 type ContainsChildren = {
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
 
 function ProviderStack<
