@@ -75,8 +75,8 @@ function renderItem({
       })}
     >
       <View
-        lightColor="transparent"
         darkColor="transparent"
+        lightColor="transparent"
         style={styles.listItem}
       >
         <Text style={styles.title}>{item.abbreviationLocal}</Text>
