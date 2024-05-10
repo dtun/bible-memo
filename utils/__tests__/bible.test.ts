@@ -26,6 +26,7 @@ let bibleB = bibleTranslationBuilder({
   },
 });
 let bibleC = bibleTranslationBuilder({ overrides: { abbreviationLocal: "C" } });
+
 test("filterAndSortBibles", () => {
   expect(filterAndSortBibles([bibleC, bibleB, bibleA])).toMatchObject([
     bibleA,
