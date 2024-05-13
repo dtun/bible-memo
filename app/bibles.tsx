@@ -39,15 +39,11 @@ export default function BiblesScreen() {
         )}
         ListFooterComponent={SafeSpaceBottom}
         ListHeaderComponent={<Space height={8} />}
-        ListEmptyComponent={() =>
-          isFetching ? (
-            <Text style={[styles.body, styles.listEmpty]}>Loading...</Text>
-          ) : (
-            <Text style={[styles.body, styles.listEmpty]}>
-              No bibles found.
-            </Text>
-          )
-        }
+        ListEmptyComponent={() => (
+          <Text style={[styles.body, styles.listEmpty]}>
+            {isFetching ? "Loading..." : "No bibles found."}
+          </Text>
+        )}
         onRefresh={refetch}
         refreshing={isFetching}
         renderItem={renderItem}
