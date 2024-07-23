@@ -1,4 +1,4 @@
-import type { BibleTranslation } from "@/types";
+import type { BibleTranslation, BibleBook } from "@/types";
 
 const BASE_URL = "https://api.scripture.api.bible/v1";
 
@@ -29,4 +29,14 @@ async function getBible(id: string): Promise<BibleTranslation> {
   return data;
 }
 
-export { BASE_URL, getBibles, getBible };
+async function getBooks(id: string): Promise<BibleBook[]> {
+  let response = await fetch(`${BASE_URL}/bibles/${id}/books`, {
+    ...sharedConfig,
+    method: "GET",
+  });
+  let { data } = await response.json();
+
+  return data;
+}
+
+export { BASE_URL, getBibles, getBible, getBooks };
