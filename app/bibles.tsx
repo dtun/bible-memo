@@ -46,13 +46,13 @@ export default function BiblesScreen() {
         )}
         onRefresh={refetch}
         refreshing={isFetching}
-        renderItem={renderItem}
+        renderItem={RenderBibleTranslation}
       />
     </>
   );
 }
 
-function renderItem({
+function RenderBibleTranslation({
   item,
 }: ListRenderItemInfo<BibleTranslation & { selected: boolean }>) {
   return (
