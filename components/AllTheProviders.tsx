@@ -13,14 +13,12 @@ export let client = new QueryClient();
 
 function AllTheProviders({ children }: { children: ReactNode }) {
   let colorScheme = useColorScheme();
+  let theme = colorScheme === "dark" ? DarkTheme : DefaultTheme;
 
   return (
     <ProviderStack
       providers={[
-        [
-          ThemeProvider,
-          { value: colorScheme === "dark" ? DarkTheme : DefaultTheme },
-        ],
+        [ThemeProvider, { value: theme }],
         [QueryClientProvider, { client }],
       ]}
     >
