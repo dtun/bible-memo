@@ -1,4 +1,4 @@
-export type BibleTranslation = {
+type BibleTranslation = {
   id: string;
   dblId: string;
   relatedDbl: string | null;
@@ -24,3 +24,13 @@ export type BibleTranslation = {
   updatedAt: string;
   audioBibles: any[]; // Need specification to provide a better type
 };
+
+type BibleBook = {
+  abbreviation: string;
+  bibleId: string;
+  id: string;
+  name: string;
+  nameLong: string;
+};
+
+export { BibleTranslation, BibleBook };
