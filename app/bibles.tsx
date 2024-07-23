@@ -62,9 +62,11 @@ function RenderBibleTranslation({
       accessibilityState={{ selected: item.selected }}
       hitSlop={24}
       onPress={() => {
-        queryClient.prefetchQuery(getBibleQuery(item.id));
         router.back();
         router.navigate(`/bible/${item.id}`);
+      }}
+      onPressIn={() => {
+        queryClient.prefetchQuery(getBibleQuery(item.id));
       }}
       style={({ pressed }) => ({
         opacity: pressed ? 0.5 : 1,
