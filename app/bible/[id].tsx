@@ -18,19 +18,19 @@ export default function BibleScreen() {
   let { data: bible, isFetching } = useBible(id!);
 
   useEffect(() => {
+    let title = bible?.abbreviationLocal ?? "";
+    let headerTitle = formatScreenTitle(`${book} ${chapter}`);
+
     setOptions({
       headerRight: () => (
         <HeaderPressable
-          title={bible?.abbreviationLocal ?? ""}
+          title={title}
           onPress={() =>
-            push({
-              pathname: "/bibles",
-              params: { id: bible?.id ?? id },
-            })
+            push({ pathname: "/bibles", params: { id: bible?.id ?? id } })
           }
         />
       ),
-      headerTitle: formatScreenTitle(`${book} ${chapter}`),
+      headerTitle,
     });
   }, [bible, book, chapter, id]);
 
