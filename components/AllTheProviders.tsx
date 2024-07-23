@@ -9,7 +9,7 @@ import { type ReactNode } from "react";
 import { useColorScheme } from "./useColorScheme";
 import { ProviderStack } from "./ProviderStack";
 
-export let queryClient = new QueryClient();
+export let client = new QueryClient();
 
 function AllTheProviders({ children }: { children: ReactNode }) {
   let colorScheme = useColorScheme();
@@ -21,7 +21,7 @@ function AllTheProviders({ children }: { children: ReactNode }) {
           ThemeProvider,
           { value: colorScheme === "dark" ? DarkTheme : DefaultTheme },
         ],
-        [QueryClientProvider, { client: queryClient }],
+        [QueryClientProvider, { client }],
       ]}
     >
       {children}
