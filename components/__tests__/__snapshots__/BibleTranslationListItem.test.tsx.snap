@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders <BibleTranslationListItem /> 1`] = `
+<View
+  accessibilityLabel="vado"
+  accessibilityRole="link"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  hitSlop={24}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "opacity": 1,
+    }
+  }
+>
+  <View
+    style={
+      [
+        {
+          "backgroundColor": "transparent",
+        },
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+        },
+      ]
+    }
+  >
+    <Text
+      style={
+        [
+          {
+            "color": "#000",
+          },
+          {
+            "fontSize": 20,
+            "fontWeight": "bold",
+            "marginHorizontal": 4,
+            "marginVertical": 4,
+          },
+        ]
+      }
+    >
+      absorbeo
+    </Text>
+  </View>
+  <Text
+    style={
+      [
+        {
+          "color": "#000",
+        },
+        {
+          "fontSize": 16,
+          "marginHorizontal": 4,
+        },
+      ]
+    }
+  >
+    vado
+  </Text>
+</View>
+`;
