@@ -53,20 +53,20 @@ export default function BiblesScreen() {
 }
 
 function RenderBibleTranslation({
-  item,
+  item: bible,
 }: ListRenderItemInfo<BibleTranslation & { selected: boolean }>) {
   return (
     <Pressable
-      accessibilityLabel={item.nameLocal}
+      accessibilityLabel={bible.nameLocal}
       accessibilityRole="link"
-      accessibilityState={{ selected: item.selected }}
+      accessibilityState={{ selected: bible.selected }}
       hitSlop={24}
       onPress={() => {
         router.back();
-        router.navigate(`/bible/${item.id}`);
+        router.navigate(`/bible/${bible.id}`);
       }}
       onPressIn={() => {
-        queryClient.prefetchQuery(getBibleQuery(item.id));
+        queryClient.prefetchQuery(getBibleQuery(bible.id));
       }}
       style={({ pressed }) => ({
         opacity: pressed ? 0.5 : 1,
@@ -77,10 +77,10 @@ function RenderBibleTranslation({
         lightColor="transparent"
         style={styles.listItem}
       >
-        <Text style={styles.title}>{item.abbreviationLocal}</Text>
-        {item.selected ? <Text style={styles.check}>✓</Text> : null}
+        <Text style={styles.title}>{bible.abbreviationLocal}</Text>
+        {bible.selected ? <Text style={styles.check}>✓</Text> : null}
       </View>
-      <Text style={styles.body}>{item.nameLocal}</Text>
+      <Text style={styles.body}>{bible.nameLocal}</Text>
     </Pressable>
   );
 }
