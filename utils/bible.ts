@@ -1,13 +1,15 @@
 import type { BibleTranslation } from "@/types";
 
+import { filter } from "lodash";
+
 function filterBibles(bibles: BibleTranslation[]) {
-  return bibles.filter((b) => b.language.nameLocal === "English");
+  return filter(bibles, ["language.nameLocal", "English"]);
 }
 
+import { sortBy } from "lodash";
+
 function sortBibles(bibles: BibleTranslation[]) {
-  return bibles.sort((a, b) =>
-    a.abbreviationLocal.localeCompare(b.abbreviationLocal)
-  );
+  return sortBy(bibles, "abbreviationLocal");
 }
 
 import { flowRight } from "lodash";
