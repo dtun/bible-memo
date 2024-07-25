@@ -1,7 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { FlatList, Platform, StyleSheet } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
-
 import { Text, View } from "@/components/Themed";
 import { useBibles } from "@/hooks/useBibles";
 import { SafeSpaceBottom } from "@/components/Space";
@@ -11,8 +10,12 @@ import { BibleTranslationListItem } from "@/components/BibleTranslationListItem"
 
 export default function BiblesScreen() {
   let { id } = useLocalSearchParams<{ id: string }>();
-  let { data: bibles, isFetching, refetch } = useBibles(filterAndSortBibles);
-  let data = bibles?.map((bible) =>
+  let { data: bibles, isFetching, refetch } = useBibles();
+  let data = filterAndSortBibles(
+    bibles ?? [],
+    { key: "language.nameLocal", value: "English" },
+    "abbreviationLocal"
+  ).map((bible) =>
     Object.assign(bible, {
       onPress: (id: string) => router.replace(`/bible/${id}`),
       selected: bible.id === id,

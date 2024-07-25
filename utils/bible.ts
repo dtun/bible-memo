@@ -1,21 +1,30 @@
 import type { BibleTranslation } from "@/types";
+import { filter, sortBy, flowRight } from "lodash";
 
-import { filter } from "lodash";
+type FilterCriteria = {
+  key: keyof BibleTranslation | string;
+  value: any;
+};
 
-function filterBibles(bibles: BibleTranslation[]) {
-  return filter(bibles, ["language.nameLocal", "English"]);
+type SortCriteria = keyof BibleTranslation | string;
+
+function filterBibles(bibles: BibleTranslation[], criteria: FilterCriteria) {
+  return filter(bibles, [criteria.key, criteria.value]);
 }
 
-import { sortBy } from "lodash";
-
-function sortBibles(bibles: BibleTranslation[]) {
-  return sortBy(bibles, "abbreviationLocal");
+function sortBibles(bibles: BibleTranslation[], criteria: SortCriteria) {
+  return sortBy(bibles, criteria);
 }
 
-import { flowRight } from "lodash";
-
-function filterAndSortBibles(bibles: BibleTranslation[]) {
-  return flowRight(sortBibles, filterBibles)(bibles);
+function filterAndSortBibles(
+  bibles: BibleTranslation[],
+  filterCriteria: FilterCriteria,
+  sortCriteria: SortCriteria
+) {
+  return flowRight(
+    (b: BibleTranslation[]) => sortBibles(b, sortCriteria),
+    (b: BibleTranslation[]) => filterBibles(b, filterCriteria)
+  )(bibles);
 }
 
 export { filterBibles, sortBibles, filterAndSortBibles };
