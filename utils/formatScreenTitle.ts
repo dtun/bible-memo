@@ -1,7 +1,7 @@
-import { upperFirst } from "lodash";
+import { startCase } from "lodash";
 
 function formatScreenTitle(s: string) {
-  return upperFirst(s);
+  return startCase(s);
 }
 
 export { formatScreenTitle };
