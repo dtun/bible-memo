@@ -1,3 +1,4 @@
+// ot
 const GENESIS = "genesis";
 const EXODUS = "exodus";
 const LEVITICUS = "leviticus";
@@ -37,7 +38,7 @@ const ZEPHANIAH = "zephaniah";
 const HAGGAI = "haggai";
 const ZECHARIAH = "zechariah";
 const MALACHI = "malachi";
-
+// nt
 const MATTHEW = "matthew";
 const MARK = "mark";
 const LUKE = "luke";
@@ -139,4 +140,43 @@ let books = [
   },
 ] as const;
 
-export { books };
+let [oTBooks, nTBooks] = books;
+
+let oTBookKeys = Object.entries(oTBooks).reduce((acc, [key, value]) => {
+  acc[key as OTBooks] = value as OTBooks;
+  return acc;
+}, {} as Record<OTBooks, OTBooks>);
+
+let nTBookKeys = Object.entries(nTBooks).reduce((acc, [key, value]) => {
+  acc[key as NTBooks] = value as NTBooks;
+  return acc;
+}, {} as Record<NTBooks, NTBooks>);
+
+type OTBooks = keyof typeof oTBooks;
+type NTBooks = keyof typeof nTBooks;
+type BibleBooks = OTBooks | NTBooks;
+type OTBookName = (typeof oTBooks)[keyof typeof oTBooks];
+type NTBookName = (typeof nTBooks)[keyof typeof nTBooks];
+type OTBookKey = keyof typeof oTBookKeys;
+type NTBookKey = keyof typeof nTBookKeys;
+type BibleBook = {
+  name: OTBookName | NTBookName;
+  chapters: number;
+  verses: number[];
+};
+
+export {
+  BibleBook,
+  BibleBooks,
+  books,
+  NTBookKey,
+  NTBookName,
+  NTBooks,
+  nTBookKeys,
+  nTBooks,
+  OTBooks,
+  OTBookKey,
+  OTBookName,
+  oTBookKeys,
+  oTBooks,
+};
