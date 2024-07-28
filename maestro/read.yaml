@@ -5,12 +5,6 @@ appId: com.biblememo.app
 - tapOn:
     text: Read
 - assertVisible: Bibles
-- extendedWaitUntil:
-    notVisible:
-      text: Loading...
-    timeout: 2500
-- tapOn:
-    text: The Holy Bible, American Standard Version
 - assertVisible: Genesis 1
 - assertVisible: Coming soon...
 - tapOn:

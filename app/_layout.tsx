@@ -5,8 +5,7 @@ export { ErrorBoundary } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { QueryClient } from "@tanstack/react-query";
-
-import { books } from "@/constants/Books";
+import { oTBookKeys } from "@/constants/Books";
 import { HeaderPressable } from "@/components/HeaderPressable";
 import { AllTheProviders } from "@/components/AllTheProviders";
 
@@ -56,7 +55,7 @@ function RootLayoutNav() {
               </Link>
             ),
             headerLeft: () => (
-              <Link href="/bibles" asChild>
+              <Link href="/bible" asChild>
                 <HeaderPressable title="Read" />
               </Link>
             ),
@@ -70,8 +69,8 @@ function RootLayoutNav() {
           }}
         />
         <Stack.Screen
-          initialParams={{ book: books.GENESIS, chapter: 1, id: "" }}
-          name="bible/[id]"
+          initialParams={{ book: oTBookKeys.GENESIS, chapter: 1, id: "" }}
+          name="bible"
           options={{
             headerTitle: "Bible",
             headerLeft: () => (
