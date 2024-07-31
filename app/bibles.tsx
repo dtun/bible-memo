@@ -17,7 +17,7 @@ export default function BiblesScreen() {
     "abbreviationLocal"
   ).map((bible) =>
     Object.assign(bible, {
-      onPress: (id: string) => router.replace(`/bible/${id}`),
+      onPress: (_id: string) => router.replace("/bible"),
       selected: bible.id === id,
     })
   );
