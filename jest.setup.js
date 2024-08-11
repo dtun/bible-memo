@@ -1,6 +1,5 @@
-import "@testing-library/jest-native/extend-expect"
-
 import { server } from '@/mocks/server';
+import "@testing-library/jest-native/extend-expect"
 
 beforeAll(() => {
   jest.useFakeTimers();

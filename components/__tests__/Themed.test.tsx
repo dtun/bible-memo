@@ -1,7 +1,6 @@
 import * as React from "react";
-
-import { render, screen } from "../../test-utils";
-import { Text, View } from "../Themed";
+import { render } from "@/test-utils";
+import { Text, View } from "@/components/Themed";
 
 it(`renders <Text />`, () => {
   render(<Text>Snapshot test!</Text>);
