@@ -80,15 +80,6 @@ function RootLayoutNav() {
             ),
           }}
         />
-        <Stack.Screen
-          initialParams={{ id: "" }}
-          name="bibles"
-          options={{
-            presentation: "modal",
-            headerTitle: "Bibles",
-            headerLeft: () => <HeaderPressable title="Close" onPress={back} />,
-          }}
-        />
       </Stack>
     </AllTheProviders>
   );
