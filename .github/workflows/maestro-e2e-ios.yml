@@ -34,11 +34,19 @@ jobs:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: List build directory
+        run: |
+          ls -R ./build
+
       - name: Find simulator app
         run: |
-          APP_PATH=$(find ./build -name "*.app" -type d)
+          APP_PATH=$(find ./build -name "*.app" -type d | head -n 1)
           echo "Found app at: $APP_PATH"
-          echo "APP_PATH=$APP_PATH" >> $GITHUB_ENV
+          if [ -z "$APP_PATH" ]; then
+            echo "No .app bundle found!"
+            exit 1
+          fi
+          echo "APP_PATH=$APP_PATH" >> "$GITHUB_ENV"
 
       - uses: mobile-dev-inc/action-maestro-cloud@v1.9.6
         with:
