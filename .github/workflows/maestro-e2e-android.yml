@@ -33,8 +33,6 @@ jobs:
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          EAS_NO_VCS: 1
-          EAS_BUILD_DISABLE_HOOKS: 1
 
       - uses: mobile-dev-inc/action-maestro-cloud@v1.9.6
         with:
