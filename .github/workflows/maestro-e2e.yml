@@ -1,0 +1,42 @@
+name: Maestro E2E Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  e2e-test:
+    name: Run E2E Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build iOS app for simulator
+        run: |
+          npm run prebuild
+          npx eas-cli build --platform ios --profile development-sim --local --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Run Maestro tests on Robin
+        uses: mobile-dev-inc/action-maestro-cloud@v1.9.6
+        with:
+          api-key: ${{ secrets.ROBIN_API_KEY }}
+          project-id: ${{ secrets.ROBIN_PROJECT_ID }} # Add this to your GitHub secrets
+          app-file: build/*.app # Adjust this path to where your iOS app is built
+          workspace: maestro/
+          ios-version: 16
+          env: |
+            APP_ENV=test
