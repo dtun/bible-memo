@@ -38,7 +38,7 @@ jobs:
         with:
           api-key: ${{ secrets.ROBIN_API_KEY }}
           project-id: ${{ secrets.ROBIN_PROJECT_ID }}
-          app-file: build/*.apk # Adjust this path to where your Android APK is built
+          app-file: build/android/app/build/outputs/apk/debug/app-debug.apk
           workspace: maestro/
           android-api-level: 33
           env: |
