@@ -39,12 +39,16 @@ jobs:
           EAS_NO_VCS: 1
           EAS_BUILD_DISABLE_HOOKS: 1
 
+      - name: Find built APK
+        id: find-apk
+        run: echo "APK_PATH=$(find . -maxdepth 1 -name 'build-*.apk' | head -n 1)" >> $GITHUB_OUTPUT
+
       - name: Run Maestro tests on Robin
         uses: mobile-dev-inc/action-maestro-cloud@v1.9.6
         with:
           api-key: ${{ secrets.ROBIN_API_KEY }}
           project-id: ${{ secrets.ROBIN_PROJECT_ID }}
-          app-file: build/android/app/build/outputs/apk/debug/app-debug.apk
+          app-file: ${{ steps.find-apk.outputs.APK_PATH }}
           workspace: ./maestro
           android-api-level: 33
           env: |
