@@ -36,9 +36,15 @@ jobs:
           EAS_NO_VCS: 1
           EAS_BUILD_DISABLE_HOOKS: 1
 
-      - name: Find built iOS app
+      - name: List build artifacts
+        run: find . -name "*.app" -o -name "*.ipa"
+
+      - name: Set app file path manually
         id: find-app
-        run: echo "APP_PATH=$(find . -maxdepth 1 -name 'build-*.app' | head -n 1)" >> $GITHUB_OUTPUT
+        run: |
+          APP_PATH=$(find . -name "*.app" | head -n 1)
+          echo "Found app at: $APP_PATH"
+          echo "APP_PATH=$APP_PATH" >> $GITHUB_OUTPUT
 
       - name: Run Maestro tests on Robin
         uses: mobile-dev-inc/action-maestro-cloud@v1.9.6
