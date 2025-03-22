@@ -1,5 +1,8 @@
 appId: com.biblememo.app
 ---
 - launchApp
+- waitForAnimationToEnd
+- runScript: sleep(2) # Give the app a moment to fully render
+- takeScreenshot: initial-state.png
 - assertVisible: Coming soon...
 - assertVisible: Free resources for memorizing scripture

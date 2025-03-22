@@ -53,8 +53,17 @@ jobs:
           project-id: ${{ secrets.ROBIN_PROJECT_ID }}
           app-file: build/Build/Products/Debug-iphonesimulator/BibleMemo.app
           workspace: ./maestro
-          startup-timeout: 60000
+          timeout: 60000
           env: |
             APP_ENV=test
             GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
             IOS_DEVICE_ID=${{ env.DEVICE_ID }}
+
+      - name: 📤 Upload test artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-artifacts
+          path: |
+            **/*.png
+            **/maestro.log
