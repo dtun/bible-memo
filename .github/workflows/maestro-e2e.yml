@@ -29,29 +29,18 @@ jobs:
       - name: Build iOS app for simulator
         run: |
           npm run prebuild
-          npx eas-cli build --platform ios --profile development-sim --local --non-interactive
+          npx eas-cli build --platform ios --profile development-sim --local --non-interactive --output=./build/BibleMemo.app
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EAS_NO_VCS: 1
           EAS_BUILD_DISABLE_HOOKS: 1
 
-      - name: List build artifacts
-        run: find . -name "*.app" -o -name "*.ipa"
-
-      - name: Set app file path manually
-        id: find-app
-        run: |
-          APP_PATH=$(find . -name "*.app" | head -n 1)
-          echo "Found app at: $APP_PATH"
-          echo "APP_PATH=$APP_PATH" >> $GITHUB_OUTPUT
-
-      - name: Run Maestro tests on Robin
-        uses: mobile-dev-inc/action-maestro-cloud@v1.9.6
+      - uses: mobile-dev-inc/action-maestro-cloud@v1.9.6
         with:
           api-key: ${{ secrets.ROBIN_API_KEY }}
           project-id: ${{ secrets.ROBIN_PROJECT_ID }}
-          app-file: ${{ steps.find-app.outputs.APP_PATH }}
+          app-file: ./build/BibleMemo.app
           workspace: ./maestro
           ios-version: 16
           env: |

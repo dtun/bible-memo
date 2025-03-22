@@ -23,32 +23,24 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install expo-dev-client
-        run: npx expo install expo-dev-client
-
       - name: Setup EAS
         run: npm install -g eas-cli
 
       - name: Build Android app
         run: |
           npm run prebuild
-          npx eas-cli build --platform android --profile development --local --non-interactive
+          npx eas-cli build --platform android --profile preview --local --non-interactive --output=./build/app-debug.apk
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EAS_NO_VCS: 1
           EAS_BUILD_DISABLE_HOOKS: 1
 
-      - name: Find built APK
-        id: find-apk
-        run: echo "APK_PATH=$(find . -maxdepth 1 -name 'build-*.apk' | head -n 1)" >> $GITHUB_OUTPUT
-
-      - name: Run Maestro tests on Robin
-        uses: mobile-dev-inc/action-maestro-cloud@v1.9.6
+      - uses: mobile-dev-inc/action-maestro-cloud@v1.9.6
         with:
           api-key: ${{ secrets.ROBIN_API_KEY }}
           project-id: ${{ secrets.ROBIN_PROJECT_ID }}
-          app-file: ${{ steps.find-apk.outputs.APK_PATH }}
+          app-file: ./build/app-debug.apk
           workspace: ./maestro
           android-api-level: 33
           env: |
