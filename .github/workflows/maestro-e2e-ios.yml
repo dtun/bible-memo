@@ -29,18 +29,24 @@ jobs:
       - name: Build iOS app
         run: |
           npm run prebuild
-          npx eas-cli build --platform ios --profile preview --local --non-interactive --output=./build/BibleMemo.app
+          npx eas-cli build --platform ios --profile preview --local --non-interactive --output=./build
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Find simulator app
+        run: |
+          APP_PATH=$(find ./build -name "*.app" -type d)
+          echo "Found app at: $APP_PATH"
+          echo "APP_PATH=$APP_PATH" >> $GITHUB_ENV
 
       - uses: mobile-dev-inc/action-maestro-cloud@v1.9.6
         with:
           api-key: ${{ secrets.ROBIN_API_KEY }}
           project-id: ${{ secrets.ROBIN_PROJECT_ID }}
-          app-file: ./build/BibleMemo.app
+          app-file: ${{ env.APP_PATH }}
           workspace: ./maestro
-          android-api-level: 33 # keeping this won't hurt for iOS
+          android-api-level: 33
           env: |
             APP_ENV=test
             GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
