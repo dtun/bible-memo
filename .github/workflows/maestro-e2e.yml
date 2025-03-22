@@ -39,7 +39,7 @@ jobs:
           api-key: ${{ secrets.ROBIN_API_KEY }}
           project-id: ${{ secrets.ROBIN_PROJECT_ID }}
           app-file: build/ios/build/Build/Products/Debug-iphonesimulator/*.app
-          workspace: maestro/
+          workspace: ./maestro
           ios-version: 16
           env: |
             APP_ENV=test
