@@ -9,7 +9,7 @@ on:
 jobs:
   e2e-test-ios:
     name: Run E2E Tests on iOS
-    runs-on: ubuntu-latest # Changed to ubuntu since we're using cloud builds
+    runs-on: macos-latest # Need macOS for CocoaPods
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -26,16 +26,28 @@ jobs:
       - name: Setup EAS
         run: npm install -g eas-cli
 
+      - name: Setup Ruby and CocoaPods
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.0"
+          bundler-cache: true
+
+      - name: Install CocoaPods
+        run: |
+          cd ios
+          pod install
+
       - name: Build iOS app
         run: |
           npm run prebuild
-          npx eas-cli build --platform ios --profile preview --non-interactive --wait
+          eas build --platform ios --profile preview --non-interactive --wait
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download latest build
         run: |
+          mkdir -p build
           BUILD_URL=$(eas-cli build:list --platform ios --status finished --non-interactive --json | jq -r '.[0].artifacts.buildUrl')
           curl -o ./build/BibleMemo.ipa "$BUILD_URL"
 
