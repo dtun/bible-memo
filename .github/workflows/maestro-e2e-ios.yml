@@ -11,50 +11,39 @@ jobs:
     name: Run E2E Tests on iOS
     runs-on: macos-latest
     steps:
-      - name: Checkout
+      - name: 🏗 Setup repository
         uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: 🏗 Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: npm
 
-      - name: Install dependencies
+      - name: 📦 Install dependencies
         run: npm ci
 
-      - name: Setup EAS
+      - name: 🏗 Setup EAS
         run: npm install -g eas-cli
 
-      - name: Create build directory
-        run: mkdir -p ./build
-
-      - name: Build iOS app
+      - name: 🏗 Build iOS app
         run: |
           npm run prebuild
-          npx eas-cli build --platform ios --profile preview --local --non-interactive --output=./build/BibleMemo.app --verbose
+          xcodebuild -workspace ios/BibleMemo.xcworkspace \
+            -scheme BibleMemo \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -derivedDataPath build
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Debug build output
-        run: |
-          echo "Current directory:"
-          pwd
-          echo "Directory contents:"
-          ls -la
-          echo "Build directory contents:"
-          ls -la ./build
-          echo "Full directory tree:"
-          find . -name "*.app" -type d
-
-      - uses: mobile-dev-inc/action-maestro-cloud@v1.9.6
+      - name: 🧪 Run Maestro tests
+        uses: mobile-dev-inc/action-maestro-cloud@v1.9.6
         with:
           api-key: ${{ secrets.ROBIN_API_KEY }}
           project-id: ${{ secrets.ROBIN_PROJECT_ID }}
-          app-file: ./build/BibleMemo.app
+          app-file: build/Build/Products/Debug-iphonesimulator/BibleMemo.app
           workspace: ./maestro
-          android-api-level: 33
           env: |
             APP_ENV=test
             GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
