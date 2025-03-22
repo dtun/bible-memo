@@ -32,6 +32,7 @@ jobs:
           npx eas-cli build --platform ios --profile development-sim --local --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run Maestro tests on Robin
         uses: mobile-dev-inc/action-maestro-cloud@v1.9.6
@@ -43,3 +44,4 @@ jobs:
           ios-version: 16
           env: |
             APP_ENV=test
+            GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}

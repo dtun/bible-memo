@@ -35,6 +35,7 @@ jobs:
           npx eas-cli build --platform android --profile development --local --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run Maestro tests on Robin
         uses: mobile-dev-inc/action-maestro-cloud@v1.9.6
@@ -42,7 +43,8 @@ jobs:
           api-key: ${{ secrets.ROBIN_API_KEY }}
           project-id: ${{ secrets.ROBIN_PROJECT_ID }}
           app-file: build/android/app/build/outputs/apk/debug/app-debug.apk
-          workspace: maestro/
+          workspace: ./maestro
           android-api-level: 33
           env: |
             APP_ENV=test
+            GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
