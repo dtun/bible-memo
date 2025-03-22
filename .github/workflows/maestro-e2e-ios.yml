@@ -26,6 +26,13 @@ jobs:
       - name: 🏗 Setup EAS
         run: npm install -g eas-cli
 
+      - name: 🔧 Setup iOS simulator
+        run: |
+          xcrun simctl list
+          DEVICE_ID=$(xcrun simctl create "Test Device" "iPhone 14")
+          xcrun simctl boot "$DEVICE_ID"
+          echo "DEVICE_ID=$DEVICE_ID" >> $GITHUB_ENV
+
       - name: 🏗 Build iOS app
         run: |
           npm run prebuild
@@ -33,7 +40,9 @@ jobs:
             -scheme BibleMemo \
             -configuration Debug \
             -sdk iphonesimulator \
-            -derivedDataPath build
+            -derivedDataPath build \
+            ENABLE_TESTABILITY=YES \
+            -destination "platform=iOS Simulator,id=${{ env.DEVICE_ID }}"
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
@@ -44,6 +53,8 @@ jobs:
           project-id: ${{ secrets.ROBIN_PROJECT_ID }}
           app-file: build/Build/Products/Debug-iphonesimulator/BibleMemo.app
           workspace: ./maestro
+          startup-timeout: 60000
           env: |
             APP_ENV=test
             GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+            IOS_DEVICE_ID=${{ env.DEVICE_ID }}
