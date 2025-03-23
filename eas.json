@@ -14,7 +14,10 @@
       }
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "ios": {
+        "credentialsSource": "remote"
+      }
     },
     "production": {}
   },

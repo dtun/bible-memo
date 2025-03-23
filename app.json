@@ -15,7 +15,10 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.biblememo.app",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -41,6 +44,9 @@
       "eas": {
         "projectId": "48c84b2d-53fd-47f3-b8d7-85861990c7ca"
       }
+    },
+    "cli": {
+      "appVersionSource": "remote"
     }
   }
 }
