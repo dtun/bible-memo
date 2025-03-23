@@ -58,12 +58,3 @@ jobs:
             APP_ENV=test
             GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
             IOS_DEVICE_ID=${{ env.DEVICE_ID }}
-
-      - name: 📤 Upload test artifacts
-        if: always()
-        uses: actions/upload-artifact@v3.1.3
-        with:
-          name: test-artifacts
-          path: |
-            **/*.png
-            **/maestro.log
