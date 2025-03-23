@@ -53,8 +53,23 @@ jobs:
           project-id: ${{ secrets.ROBIN_PROJECT_ID }}
           app-file: build/Build/Products/Debug-iphonesimulator/BibleMemo.app
           workspace: ./maestro
-          timeout: 300 # 5 minutes
+          timeout: 600 # Increased from 300 to 600 seconds
+          include-tags: ci # Optional: Add this if you want to only run tests with a specific tag
           env: |
             APP_ENV=test
             GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
             IOS_DEVICE_ID=${{ env.DEVICE_ID }}
+
+      # Add a step to capture screenshots if tests fail
+      - name: 📷 Capture screenshots on failure
+        if: failure()
+        run: |
+          xcrun simctl io ${{ env.DEVICE_ID }} screenshot ./failure-screenshot.png
+
+      # Upload screenshots as artifacts
+      - name: 📤 Upload failure screenshots
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: failure-screenshots
+          path: ./*.png
