@@ -55,7 +55,7 @@ jobs:
           fi
           xcrun simctl install "$DEVICE_ID" "$APP_PATH"
           echo "✅ App installed successfully"
-          xcrun simctl list_apps "$DEVICE_ID"
+          xcrun simctl get_app_container "$DEVICE_ID" com.yourcompany.BibleMemo || echo "App container check failed, continuing anyway"
 
       - name: 🧪 Run Maestro tests
         uses: mobile-dev-inc/action-maestro-cloud@v1.9.6
