@@ -35,18 +35,38 @@ jobs:
 
       - name: 🏗 Build iOS app with EAS
         run: |
-          eas build --platform ios --profile development-sim --local --non-interactive
+          # Use the simulator build profile
+          eas build --platform ios --profile development-sim --local --non-interactive --output=./build-output.tar.gz
+
+          # Extract the build artifact
+          mkdir -p build-output
+          tar -xzf build-output.tar.gz -C build-output
+
+          # Debug
+          echo "=== Contents of current directory ==="
+          ls -la
+          echo "=== Contents of build-output directory ==="
+          ls -la build-output
+
+          # Search for app bundles in all directories
+          echo "=== Searching for .app bundles ==="
           find . -name "*.app" -type d | tee app-paths.txt
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
       - name: 📱 Install app on simulator
         run: |
-          # Find the app bundle from the EAS build output
-          APP_PATH=$(find . -name "*.app" -type d | head -n 1)
+          # Try to find the app bundle explicitly in the build-output directory first
+          if [ -d "build-output/BibleMemo.app" ]; then
+            APP_PATH="build-output/BibleMemo.app"
+          else
+            # Fallback to searching everywhere
+            APP_PATH=$(find . -name "*.app" -type d | head -n 1)
+          fi
 
           if [ -z "$APP_PATH" ]; then
-            echo "❌ App bundle not found"
+            echo "❌ App bundle not found, attempting to list all files recursively:"
+            find . -type f | grep -v "node_modules" | sort
             exit 1
           fi
 

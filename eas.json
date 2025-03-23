@@ -8,10 +8,13 @@
       "distribution": "internal"
     },
     "development-sim": {
+      "extends": "development",
       "distribution": "internal",
       "ios": {
-        "simulator": true
-      }
+        "simulator": true,
+        "buildConfiguration": "Debug"
+      },
+      "channel": "development"
     },
     "preview": {
       "distribution": "internal",
