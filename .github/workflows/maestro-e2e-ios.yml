@@ -9,7 +9,6 @@ on:
 jobs:
   e2e-test-ios:
     name: Run E2E Tests on iOS
-    # Only run if the 'run-e2e-tests' label is added or if it's a scheduled run
     if: |
       github.event_name == 'schedule' || 
       (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'run-e2e-tests'))
@@ -34,6 +33,31 @@ jobs:
         run: |
           curl -Ls "https://get.maestro.mobile.dev" | bash
           export PATH="$PATH":"$HOME/.maestro/bin"
+
+      - name: Configure app.json
+        run: |
+          # Add required iOS configuration
+          jq '.expo.ios.infoPlist.ITSAppUsesNonExemptEncryption = false' app.json > temp.json && mv temp.json app.json
+
+      - name: Configure EAS Build
+        run: |
+          # Create or update eas.json if it doesn't exist with the preview configuration
+          cat > eas.json << EOF
+          {
+            "cli": {
+              "version": ">= 5.9.1",
+              "appVersionSource": "remote"
+            },
+            "build": {
+              "preview": {
+                "ios": {
+                  "distribution": "internal",
+                  "credentialsSource": "remote"
+                }
+              }
+            }
+          }
+          EOF
 
       - name: Run E2E tests on EAS
         run: |
