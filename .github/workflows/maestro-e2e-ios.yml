@@ -55,7 +55,6 @@ jobs:
           fi
           xcrun simctl install "$DEVICE_ID" "$APP_PATH"
           echo "✅ App installed successfully"
-          xcrun simctl list_apps "$DEVICE_ID"
 
       - name: 🚀 Start Metro bundler
         run: |
