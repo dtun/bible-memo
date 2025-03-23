@@ -62,19 +62,20 @@ jobs:
           echo "✅ Metro bundler started in background"
           sleep 10 # Give Metro a moment to initialize
 
+      - name: 🏗 Install Maestro CLI
+        run: |
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          export PATH="$PATH":"$HOME/.maestro/bin"
+          echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+          maestro --version
+
       - name: 🧪 Run Maestro tests
-        uses: mobile-dev-inc/action-maestro-cloud@v1.9.6
-        with:
-          api-key: ${{ secrets.ROBIN_API_KEY }}
-          project-id: ${{ secrets.ROBIN_PROJECT_ID }}
-          app-file: build/Build/Products/Debug-iphonesimulator/BibleMemo.app
-          workspace: ./maestro
-          timeout: 300
-          env: |
-            APP_ENV=test
-            GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-            IOS_DEVICE_ID=${{ env.DEVICE_ID }}
-            DEBUG=maestro:*
+        run: |
+          export APP_ENV=test
+          export GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          export IOS_DEVICE_ID=${{ env.DEVICE_ID }}
+          cd ./maestro
+          maestro test .
 
       - name: 📤 Upload test artifacts
         if: always()
