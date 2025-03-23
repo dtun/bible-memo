@@ -36,6 +36,8 @@ jobs:
       - name: 🏗 Build iOS app with EAS
         run: |
           eas build --platform ios --profile preview --local --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
       - name: 📱 Install app on simulator
         run: |
