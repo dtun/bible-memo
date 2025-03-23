@@ -46,6 +46,17 @@ jobs:
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
+      - name: 📱 Install app on simulator
+        run: |
+          APP_PATH="build/Build/Products/Debug-iphonesimulator/BibleMemo.app"
+          if [ ! -d "$APP_PATH" ]; then
+            echo "❌ App bundle not found at $APP_PATH"
+            exit 1
+          fi
+          xcrun simctl install "$DEVICE_ID" "$APP_PATH"
+          echo "✅ App installed successfully"
+          xcrun simctl list_apps "$DEVICE_ID"
+
       - name: 🧪 Run Maestro tests
         uses: mobile-dev-inc/action-maestro-cloud@v1.9.6
         with:
