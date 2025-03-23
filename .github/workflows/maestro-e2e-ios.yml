@@ -61,7 +61,7 @@ jobs:
 
       - name: 📤 Upload test artifacts
         if: always()
-        uses: actions/upload-artifact@2557f314
+        uses: actions/upload-artifact@v3.1.3
         with:
           name: test-artifacts
           path: |
