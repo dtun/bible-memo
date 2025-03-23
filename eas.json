@@ -16,7 +16,14 @@
     "preview": {
       "distribution": "internal",
       "ios": {
-        "credentialsSource": "remote"
+        "credentialsSource": "local",
+        "buildConfiguration": "Release"
+      },
+      "cache": {
+        "disabled": false
+      },
+      "android": {
+        "buildType": "apk"
       }
     },
     "production": {}
