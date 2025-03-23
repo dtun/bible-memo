@@ -33,18 +33,9 @@ jobs:
           xcrun simctl boot "$DEVICE_ID"
           echo "DEVICE_ID=$DEVICE_ID" >> $GITHUB_ENV
 
-      - name: 🏗 Build iOS app
+      - name: 🏗 Build iOS app with EAS
         run: |
-          npm run prebuild
-          xcodebuild -workspace ios/BibleMemo.xcworkspace \
-            -scheme BibleMemo \
-            -configuration Debug \
-            -sdk iphonesimulator \
-            -derivedDataPath build \
-            ENABLE_TESTABILITY=YES \
-            -destination "platform=iOS Simulator,id=${{ env.DEVICE_ID }}"
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          eas build --platform ios --profile preview --local --non-interactive
 
       - name: 📱 Install app on simulator
         run: |
