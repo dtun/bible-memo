@@ -16,8 +16,7 @@
     "preview": {
       "distribution": "internal",
       "ios": {
-        "credentialsSource": "local",
-        "buildConfiguration": "Release"
+        "simulator": true
       },
       "cache": {
         "disabled": false
