@@ -1,48 +1,87 @@
 name: Maestro E2E Tests (iOS)
 
 on:
-  schedule:
-    - cron: "0 0 * * 0" # At 00:00 on Sunday
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   e2e-test-ios:
     name: Run E2E Tests on iOS
-    runs-on: ubuntu-latest # Changed to ubuntu since we're using cloud builds
+    runs-on: macos-latest
     steps:
-      - name: Checkout
+      - name: 🏗 Setup repository
         uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: 🏗 Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: npm
 
-      - name: Install dependencies
+      - name: 📦 Install dependencies
         run: npm ci
 
-      - name: Setup EAS
+      - name: 🏗 Setup EAS
         run: npm install -g eas-cli
 
-      - name: Build iOS app
+      - name: 🔧 Setup iOS simulator
+        run: |
+          xcrun simctl list
+          DEVICE_ID=$(xcrun simctl create "Test Device" "iPhone 14")
+          xcrun simctl boot "$DEVICE_ID"
+          echo "DEVICE_ID=$DEVICE_ID" >> $GITHUB_ENV
+
+      - name: 🏗 Build iOS app
         run: |
           npm run prebuild
-          npx eas-cli build --platform ios --profile preview --non-interactive --wait
+          xcodebuild -workspace ios/BibleMemo.xcworkspace \
+            -scheme BibleMemo \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -derivedDataPath build \
+            ENABLE_TESTABILITY=YES \
+            -destination "platform=iOS Simulator,id=${{ env.DEVICE_ID }}"
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Download latest build
+      - name: 📱 Install app on simulator
         run: |
-          BUILD_URL=$(eas-cli build:list --platform ios --status finished --non-interactive --json | jq -r '.[0].artifacts.buildUrl')
-          curl -o ./build/BibleMemo.ipa "$BUILD_URL"
+          APP_PATH="build/Build/Products/Debug-iphonesimulator/BibleMemo.app"
+          if [ ! -d "$APP_PATH" ]; then
+            echo "❌ App bundle not found at $APP_PATH"
+            exit 1
+          fi
+          xcrun simctl install "$DEVICE_ID" "$APP_PATH"
+          echo "✅ App installed successfully"
+          xcrun simctl list_apps "$DEVICE_ID"
 
-      - uses: mobile-dev-inc/action-maestro-cloud@v1.9.6
+      - name: 🚀 Start Metro bundler
+        run: |
+          npx react-native start --reset-cache &
+          echo "✅ Metro bundler started in background"
+          sleep 10 # Give Metro a moment to initialize
+
+      - name: 🧪 Run Maestro tests
+        uses: mobile-dev-inc/action-maestro-cloud@v1.9.6
         with:
           api-key: ${{ secrets.ROBIN_API_KEY }}
           project-id: ${{ secrets.ROBIN_PROJECT_ID }}
-          app-file: ./build/BibleMemo.ipa
+          app-file: build/Build/Products/Debug-iphonesimulator/BibleMemo.app
           workspace: ./maestro
+          timeout: 300
           env: |
             APP_ENV=test
             GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+            IOS_DEVICE_ID=${{ env.DEVICE_ID }}
+            DEBUG=maestro:*
+
+      - name: 📤 Upload test artifacts
+        if: always()
+        uses: actions/upload-artifact@v3.1.3
+        with:
+          name: test-artifacts
+          path: |
+            **/*.png
+            **/maestro.log
