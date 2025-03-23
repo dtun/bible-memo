@@ -65,7 +65,6 @@ jobs:
           app-file: build/Build/Products/Debug-iphonesimulator/BibleMemo.app
           workspace: ./maestro
           timeout: 600 # Increased from 300 to 600 seconds
-          include-tags: ci # Optional: Add this if you want to only run tests with a specific tag
           env: |
             APP_ENV=test
             GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
