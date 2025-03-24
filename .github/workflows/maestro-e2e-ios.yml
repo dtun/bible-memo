@@ -74,6 +74,9 @@ jobs:
           export APP_ENV=test
           export GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
           export IOS_DEVICE_ID=${{ env.DEVICE_ID }}
+          export MAESTRO_DRIVER_STARTUP_TIMEOUT=120000 # 2 minutes timeout instead of default
+          export MAESTRO_STUDIO_ENABLED=false # Disable Studio mode to reduce resource usage
+          export DEBUG=maestro:* # Enable debug logging
           cd ./maestro
           maestro test .
 
