@@ -1,6 +1,7 @@
+import { Fragment } from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { Link } from "expo-router";
-import { View } from "@/components/Themed";
+import { Text, View } from "@/components/Themed";
 import { bible } from "@/constants/Bible";
 import { SafeSpaceBottom } from "@/components/Space";
 import { formatBookName } from "@/utils/formatBookName";
@@ -19,7 +20,14 @@ export default function BooksScreen() {
           </Link>
         )}
         style={styles.bookList}
-        ListFooterComponent={<SafeSpaceBottom />}
+        ListFooterComponent={() => (
+          <Fragment>
+            <Text style={styles.footerText}>
+              {`${Object.keys(bible).length} Books`}
+            </Text>
+            <SafeSpaceBottom />
+          </Fragment>
+        )}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
       />
     </View>
@@ -43,5 +51,11 @@ let styles = StyleSheet.create({
   title: {
     flex: 1,
     fontSize: 20,
+  },
+  footerText: {
+    textAlign: "center",
+    paddingVertical: 4,
+    fontSize: 14,
+    color: "gray",
   },
 });
