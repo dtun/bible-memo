@@ -84,7 +84,9 @@ function RootLayoutNav() {
         <Stack.Screen
           name="books"
           options={{
+            headerLeft: () => <HeaderPressable title="Back" onPress={back} />,
             headerTitle: "Books",
+            presentation: "modal",
           }}
         />
       </Stack>

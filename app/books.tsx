@@ -13,6 +13,7 @@ export default function BooksScreen() {
         data={Object.keys(bible)}
         renderItem={({ item }) => (
           <Link
+            dismissTo
             href={{ pathname: "/bible", params: { book: item, chapter: "1" } }}
             style={styles.title}
           >
