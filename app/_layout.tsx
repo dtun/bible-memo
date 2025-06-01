@@ -78,6 +78,17 @@ function RootLayoutNav() {
                 <HeaderPressable title="Back" />
               </Link>
             ),
+            headerRight: () => (
+              <Link href="/books" asChild>
+                <HeaderPressable title="Books" />
+              </Link>
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="books"
+          options={{
+            headerTitle: "Books",
           }}
         />
       </Stack>

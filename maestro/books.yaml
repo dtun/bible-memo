@@ -1,0 +1,16 @@
+appId: com.biblememo.app
+---
+- clearState
+- launchApp
+- tapOn:
+    text: Read
+- tapOn:
+    text: Books
+- assertVisible: Genesis
+- assertVisible: Exodus
+- assertVisible: Leviticus
+- assertVisible: Numbers
+- assertVisible: Deuteronomy
+- tapOn:
+    text: Exodus
+- assertVisible: Exodus 1

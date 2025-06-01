@@ -14,9 +14,7 @@ export default function BibleScreen() {
   useEffect(() => {
     let headerTitle = formatScreenTitle(`${book} ${chapter}`);
 
-    setOptions({
-      headerTitle,
-    });
+    setOptions({ headerTitle });
   }, [book, chapter]);
 
   return (
