@@ -1,8 +1,8 @@
-import { formatBookName } from "./formatBookName";
+import { formatBookName } from "../formatBookName";
 
 describe("formatBookName", () => {
   it("should format the book name correctly", () => {
-    expect(formatBookName("Genesis")).toBe("Genesis");
+    expect(formatBookName("genesis")).toBe("Genesis");
   });
 
   it("should format the book name correctly for a book with a space", () => {
