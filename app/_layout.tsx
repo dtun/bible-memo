@@ -73,11 +73,7 @@ function RootLayoutNav() {
           name="bible"
           options={{
             headerTitle: "Bible",
-            headerLeft: () => (
-              <Link href="/" asChild>
-                <HeaderPressable title="Back" />
-              </Link>
-            ),
+            headerLeft: () => <HeaderPressable title="Back" onPress={back} />,
             headerRight: () => (
               <Link href="/books" asChild>
                 <HeaderPressable title="Books" />
