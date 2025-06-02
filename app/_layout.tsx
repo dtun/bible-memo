@@ -4,7 +4,6 @@ import { Link, Stack, useRouter } from "expo-router";
 export { ErrorBoundary } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { QueryClient } from "@tanstack/react-query";
 import { oTBookKeys } from "@/constants/Books";
 import { HeaderPressable } from "@/components/HeaderPressable";
 import { AllTheProviders } from "@/components/AllTheProviders";
@@ -35,8 +34,6 @@ export default function RootLayout() {
 
   return <RootLayoutNav />;
 }
-
-export let queryClient = new QueryClient();
 
 function RootLayoutNav() {
   let { back } = useRouter();
