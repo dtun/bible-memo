@@ -12,9 +12,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.biblememo.app",
       "supportsTablet": true
@@ -31,10 +29,7 @@
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": [
-      "expo-router",
-      "expo-font"
-    ],
+    "plugins": ["expo-router", "expo-font"],
     "experiments": {
       "typedRoutes": true
     },
@@ -46,6 +41,7 @@
       "eas": {
         "projectId": "48c84b2d-53fd-47f3-b8d7-85861990c7ca"
       }
-    }
+    },
+    "newArchEnabled": true
   }
 }
