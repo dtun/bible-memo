@@ -1,7 +1,5 @@
-import * as React from "react";
-
-import { render, screen, userEvent } from "../../test-utils";
-import { HeaderPressable } from "../HeaderPressable";
+import { render, screen, userEvent } from "@/test-utils";
+import { HeaderPressable } from "@/components/HeaderPressable";
 
 beforeAll(() => {
   jest.useFakeTimers();

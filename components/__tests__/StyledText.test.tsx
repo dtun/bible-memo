@@ -1,7 +1,5 @@
-import * as React from "react";
-
-import { render, screen } from "../../test-utils";
-import { MonoText } from "../StyledText";
+import { render, screen } from "@/test-utils";
+import { MonoText } from "@/components/StyledText";
 
 it(`renders <MonoText />`, () => {
   render(<MonoText>Snapshot test!</MonoText>);
