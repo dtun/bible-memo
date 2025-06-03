@@ -1,7 +1,7 @@
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { render, screen } from "../../test-utils";
-import { SafeSpaceBottom, SafeSpaceTop, Space } from "../Space";
+import { render, screen } from "@/test-utils";
+import { SafeSpaceBottom, SafeSpaceTop, Space } from "@/components/Space";
 
 it(`renders <Space />`, () => {
   render(<Space height={24} />);
