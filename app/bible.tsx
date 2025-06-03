@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { Text, View } from "@/components/Themed";
-import { formatScreenTitle } from "@/utils/formatScreenTitle";
+import { startCase } from "@/utils/startCase";
 
 export default function BibleScreen() {
   let { setOptions } = useNavigation();
@@ -12,7 +12,7 @@ export default function BibleScreen() {
   }>();
 
   useEffect(() => {
-    let headerTitle = formatScreenTitle(`${book} ${chapter}`);
+    let headerTitle = startCase(`${book} ${chapter}`);
 
     setOptions({ headerTitle });
   }, [book, chapter]);

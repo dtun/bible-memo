@@ -4,7 +4,7 @@ import { Link } from "expo-router";
 import { Text, View } from "@/components/Themed";
 import { bible } from "@/constants/Bible";
 import { SafeSpaceBottom } from "@/components/Space";
-import { formatBookName } from "@/utils/formatBookName";
+import { startCase } from "@/utils/startCase";
 
 export default function BooksScreen() {
   return (
@@ -17,7 +17,7 @@ export default function BooksScreen() {
             href={{ pathname: "/bible", params: { book: item, chapter: "1" } }}
             style={styles.title}
           >
-            {formatBookName(item)}
+            {startCase(item)}
           </Link>
         )}
         style={styles.bookList}
