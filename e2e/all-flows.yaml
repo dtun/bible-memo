@@ -1,0 +1,10 @@
+appId: com.biblememo.app
+---
+- runFlow:
+    file: launch.yaml
+- runFlow:
+    file: me.yaml
+- runFlow:
+    file: read.yaml
+- runFlow:
+    file: books.yaml

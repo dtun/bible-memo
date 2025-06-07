@@ -1,4 +1,4 @@
 executionOrder:
   continueOnFailure: false
   flowsOrder:
-    - launch
+    - all-flows
