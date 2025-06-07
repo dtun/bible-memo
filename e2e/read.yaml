@@ -5,6 +5,10 @@ appId: com.biblememo.app
 - tapOn:
     text: Read
 - assertVisible: Genesis 1
-- assertVisible: Coming soon...
+- runFlow:
+    when:
+      visible:
+        text: Genesis 1
+    file: genesis-verses-test.yaml
 - tapOn:
     text: Back

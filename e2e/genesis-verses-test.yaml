@@ -1,0 +1,18 @@
+appId: com.biblememo.app
+---
+# Simple test to verify Genesis verses exist
+- tapOn:
+    text: Read
+- tapOn:
+    text: Books
+- assertVisible: Genesis
+- tapOn:
+    text: Genesis
+
+# Test a specific chapter has expected verses
+- tapOn:
+    text: "Genesis 1"
+- assertVisible: "Genesis 1:1"
+- assertVisible: "Genesis 1:31" # Last verse of Genesis 1
+- assertNotVisible: "Genesis 1:32" # Should not exist
+
