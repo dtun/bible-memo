@@ -33,4 +33,20 @@ type BibleBook = {
   nameLong: string;
 };
 
+// Verse reading tracking types
+export interface VerseReadRecord {
+  book: string;
+  chapter: number;
+  verse: number;
+  readStatus: boolean;
+  timestamp: number;
+}
+
+export interface ChapterProgress {
+  readVerses: Set<number>;
+  readCount: number;
+  totalVerses: number;
+  progressPercentage: number;
+}
+
 export { BibleTranslation, BibleBook };
