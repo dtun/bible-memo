@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   StyleSheet,
   ScrollView,
@@ -11,11 +11,45 @@ import { Text, View } from "@/components/Themed";
 import { startCase } from "@/utils/startCase";
 import { bible } from "@/constants/Bible";
 import { oTBookKeys, nTBookKeys } from "@/constants/Books";
+import {
+  useChapterProgress,
+  useToggleVerse,
+  useMarkAllChapterRead,
+  useClearChapterRead,
+  useIsVerseRead,
+} from "@/hooks/verse";
 
 let { width: screenWidth } = Dimensions.get("window");
 const SQUARE_SIZE = 48;
 const SQUARE_MARGIN = 4;
 const COLUMNS = Math.floor((screenWidth - 32) / (SQUARE_SIZE + SQUARE_MARGIN));
+
+// Individual verse component for better reactivity
+let VerseSquare = function VerseSquare({
+  book,
+  chapter,
+  verse,
+  toggleVerse,
+}: {
+  book: string;
+  chapter: number;
+  verse: number;
+  toggleVerse: (verse: number) => void;
+}) {
+  let isRead = useIsVerseRead(book, chapter, verse);
+  let backgroundColor = isRead ? "#39d353" : "#ebedf0";
+
+  return (
+    <Pressable
+      accessibilityLabel={`${book} ${chapter}:${verse}`}
+      accessibilityRole="button"
+      onPress={() => toggleVerse(verse)}
+      style={[styles.verseSquare, { backgroundColor }]}
+    >
+      <Text style={styles.verseNumber}>{verse}</Text>
+    </Pressable>
+  );
+};
 
 export default function BibleScreen() {
   let { setParams } = useRouter();
@@ -25,17 +59,28 @@ export default function BibleScreen() {
     chapter: string;
   }>();
 
-  let [readVerses, setReadVerses] = useState<Set<number>>(new Set());
+  // Ensure we have valid book and chapter values
+  let bookName = book || "";
+  let chapterNumber = parseInt(chapter || "1");
 
   // Find the book data
   let bookKey = [
     ...Object.values(oTBookKeys),
     ...Object.values(nTBookKeys),
-  ].find((key) => key === book?.toLowerCase());
+  ].find((key) => key === bookName.toLowerCase());
 
-  let bookData = bookKey ? (bible as any)[bookKey] : null;
-  let chapterNumber = parseInt(chapter || "1");
+  let bookData = bookKey ? bible[bookKey as keyof typeof bible] : null;
   let verseCount = bookData?.verses[chapterNumber - 1] || 0;
+
+  // Use TinyBase hooks for verse tracking - only when we have valid data
+  let { readCount, progressPercentage } = useChapterProgress(
+    bookName,
+    chapterNumber,
+    verseCount
+  );
+  let toggleVerse = useToggleVerse(bookName, chapterNumber);
+  let markAllRead = useMarkAllChapterRead(bookName, chapterNumber, verseCount);
+  let clearAll = useClearChapterRead(bookName, chapterNumber);
 
   // Create verse data array for FlatList
   let verseData = Array.from({ length: verseCount }, (_, i) => ({ id: i + 1 }));
@@ -45,41 +90,18 @@ export default function BibleScreen() {
     setOptions({ headerTitle });
   }, [book, chapter]);
 
-  let toggleVerse = (verseNumber: number) => {
-    setReadVerses((prev) => {
-      let newSet = new Set(prev);
-      if (newSet.has(verseNumber)) {
-        newSet.delete(verseNumber);
-      } else {
-        newSet.add(verseNumber);
-      }
-      return newSet;
-    });
-  };
-
-  let getVerseColor = (verseNumber: number) => {
-    if (readVerses.has(verseNumber)) {
-      return "#39d353"; // GitHub green
-    }
-    return "#ebedf0"; // GitHub gray
-  };
-
   let renderVerseSquare = ({ item }: { item: { id: number } }) => (
-    <Pressable
-      accessibilityLabel={`${book} ${chapter}:${item.id}`}
-      accessibilityRole="button"
-      onPress={() => toggleVerse(item.id)}
-      style={[styles.verseSquare, { backgroundColor: getVerseColor(item.id) }]}
-    >
-      <Text style={styles.verseNumber}>{item.id}</Text>
-    </Pressable>
+    <VerseSquare
+      key={`${bookName}-${chapterNumber}-${item.id}`}
+      book={bookName}
+      chapter={chapterNumber}
+      verse={item.id}
+      toggleVerse={toggleVerse}
+    />
   );
 
-  let readCount = readVerses.size;
-  let progressPercentage =
-    verseCount > 0 ? Math.round((readCount / verseCount) * 100) : 0;
-
-  if (!bookData) {
+  // Early return if no valid book data
+  if (!bookData || !bookName) {
     return (
       <View style={styles.container}>
         <Text style={styles.errorText}>Book not found: {book}</Text>
@@ -97,6 +119,7 @@ export default function BibleScreen() {
         </View>
 
         <FlatList
+          key={`${bookName}-${chapterNumber}`}
           data={verseData}
           renderItem={renderVerseSquare}
           keyExtractor={(item) => item.id.toString()}
@@ -149,21 +172,13 @@ export default function BibleScreen() {
         </View>
 
         <View style={styles.actions}>
-          <Pressable
-            style={styles.button}
-            onPress={() => {
-              let allVerses = new Set(
-                Array.from({ length: verseCount }, (_, i) => i + 1)
-              );
-              setReadVerses(allVerses);
-            }}
-          >
+          <Pressable style={styles.button} onPress={markAllRead}>
             <Text style={styles.buttonText}>Mark All Read</Text>
           </Pressable>
 
           <Pressable
             style={[styles.button, styles.secondaryButton]}
-            onPress={() => setReadVerses(new Set())}
+            onPress={clearAll}
           >
             <Text style={[styles.buttonText, styles.secondaryButtonText]}>
               Clear All

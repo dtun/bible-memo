@@ -1,14 +1,6 @@
-import {
-  BibleBook,
-  NTBookKey,
-  nTBookKeys,
-  nTBooks,
-  OTBookKey,
-  oTBookKeys,
-  oTBooks,
-} from "./Books";
+import { nTBookKeys, nTBooks, oTBookKeys, oTBooks } from "./Books";
 
-let bible: Record<OTBookKey & NTBookKey, BibleBook> = {
+let bible = {
   [oTBookKeys.GENESIS]: {
     name: oTBooks.GENESIS,
     chapters: 50,

@@ -1,6 +1,5 @@
 appId: com.biblememo.app
 ---
-- clearState
 - launchApp
 - tapOn:
     text: Read
@@ -9,6 +8,6 @@ appId: com.biblememo.app
     when:
       visible:
         text: Genesis 1
-    file: genesis-verses-test.yaml
+    file: read-genesis-verses.yaml
 - tapOn:
     text: Back

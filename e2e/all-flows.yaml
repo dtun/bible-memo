@@ -7,4 +7,6 @@ appId: com.biblememo.app
 - runFlow:
     file: read.yaml
 - runFlow:
+    file: remembers-reading-progress.yaml
+- runFlow:
     file: books.yaml

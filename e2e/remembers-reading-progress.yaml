@@ -1,0 +1,30 @@
+appId: com.biblememo.app
+---
+- launchApp
+- tapOn: "Read"
+
+# Mark the first few verses as read (verses 1, 2, 3)
+- tapOn:
+    text: "Genesis 1:1"
+- tapOn:
+    text: "Genesis 1:2"
+- tapOn:
+    text: "Genesis 1:3"
+
+# Verify they appear as read (green background)
+- assertVisible: "31 verses • 3 read (10%)"
+
+# Close and restart app to test persistence
+- stopApp
+- launchApp
+
+# Navigate back to the same chapter
+- tapOn: "Read"
+
+# Verify the verses are still marked as read after restart
+- assertVisible: "31 verses • 3 read (10%)"
+
+# Test that we can still toggle them off
+- tapOn:
+    text: "Genesis 1:1"
+- assertVisible: "31 verses • 2 read (6%)"
