@@ -5,3 +5,4 @@ export const CHAPTER_CELL = "chapter";
 export const VERSE_CELL = "verse";
 export const READ_STATUS_CELL = "readStatus";
 export const TIMESTAMP_CELL = "timestamp";
+export const PLAN_ID_CELL = "planId";
