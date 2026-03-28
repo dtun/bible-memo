@@ -4,7 +4,6 @@ import {
   ScrollView,
   Pressable,
   Dimensions,
-  FlatList,
 } from "react-native";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { Text, View } from "@/components/Themed";
@@ -93,16 +92,6 @@ export default function BibleScreen() {
     setOptions({ headerTitle });
   }, [book, chapter]);
 
-  let renderVerseSquare = ({ item }: { item: { id: number } }) => (
-    <VerseSquare
-      key={`${bookName}-${chapterNumber}-${item.id}`}
-      book={bookName}
-      chapter={chapterNumber}
-      verse={item.id}
-      toggleVerse={toggleVerse}
-    />
-  );
-
   // Early return if no valid book data
   if (!bookData || !bookName) {
     return (
@@ -166,40 +155,42 @@ export default function BibleScreen() {
           </View>
         ) : (
         <>
-        <FlatList
-          key={`${bookName}-${chapterNumber}`}
-          data={verseData}
-          renderItem={renderVerseSquare}
-          keyExtractor={(item) => item.id.toString()}
-          numColumns={COLUMNS}
-          scrollEnabled={false}
-          contentContainerStyle={styles.gridContainer}
-          columnWrapperStyle={styles.row}
-          ListFooterComponent={
-            <View style={styles.listFooter}>
-              <Pressable
-                style={[styles.button, styles.tertiaryButton]}
-                onPress={() =>
-                  setParams({ chapter: (chapterNumber - 1).toString() })
-                }
-              >
-                <Text style={[styles.buttonText, styles.secondaryButtonText]}>
-                  Previous
-                </Text>
-              </Pressable>
-              <Pressable
-                style={[styles.button, styles.tertiaryButton]}
-                onPress={() =>
-                  setParams({ chapter: (chapterNumber + 1).toString() })
-                }
-              >
-                <Text style={[styles.buttonText, styles.secondaryButtonText]}>
-                  Next
-                </Text>
-              </Pressable>
-            </View>
-          }
-        />
+        <View style={styles.gridContainer}>
+          <View style={styles.grid}>
+            {verseData.map((item) => (
+              <VerseSquare
+                key={`${bookName}-${chapterNumber}-${item.id}`}
+                book={bookName}
+                chapter={chapterNumber}
+                verse={item.id}
+                toggleVerse={toggleVerse}
+              />
+            ))}
+          </View>
+        </View>
+
+        <View style={styles.listFooter}>
+          <Pressable
+            style={[styles.button, styles.tertiaryButton]}
+            onPress={() =>
+              setParams({ chapter: (chapterNumber - 1).toString() })
+            }
+          >
+            <Text style={[styles.buttonText, styles.secondaryButtonText]}>
+              Previous
+            </Text>
+          </Pressable>
+          <Pressable
+            style={[styles.button, styles.tertiaryButton]}
+            onPress={() =>
+              setParams({ chapter: (chapterNumber + 1).toString() })
+            }
+          >
+            <Text style={[styles.buttonText, styles.secondaryButtonText]}>
+              Next
+            </Text>
+          </Pressable>
+        </View>
 
         <View style={styles.legendContainer}>
           <Text style={styles.legendText}>Tap verses to mark as read</Text>
@@ -299,7 +290,9 @@ let styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 24,
   },
-  row: {
+  grid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
     justifyContent: "flex-start",
   },
   verseSquare: {

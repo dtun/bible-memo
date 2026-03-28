@@ -3,7 +3,6 @@ import {
   Text,
   Pressable,
   ActivityIndicator,
-  FlatList,
   StyleSheet,
 } from "react-native";
 import { useChapterText, VerseText } from "@/hooks/chapterText";
@@ -42,11 +41,10 @@ export function VerseTextView({
   }
 
   return (
-    <FlatList
-      data={verses}
-      keyExtractor={(item) => String(item.verse)}
-      renderItem={({ item }) => (
+    <View>
+      {verses.map((item) => (
         <Pressable
+          key={item.verse}
           testID={`verse-row-${item.verse}`}
           style={styles.verseRow}
           onPress={() => onVersePress(item.verse)}
@@ -54,8 +52,8 @@ export function VerseTextView({
           <Text style={styles.verseNumber}>{item.verse}</Text>
           <Text style={styles.verseText}>{item.text}</Text>
         </Pressable>
-      )}
-    />
+      ))}
+    </View>
   );
 }
 
