@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   StyleSheet,
   ScrollView,
@@ -18,6 +18,7 @@ import {
   useClearChapterRead,
   useIsVerseRead,
 } from "@/hooks/verse";
+import { VerseTextView } from "@/components/VerseTextView";
 
 let { width: screenWidth } = Dimensions.get("window");
 const SQUARE_SIZE = 48;
@@ -82,6 +83,8 @@ export default function BibleScreen() {
   let markAllRead = useMarkAllChapterRead(bookName, chapterNumber, verseCount);
   let clearAll = useClearChapterRead(bookName, chapterNumber);
 
+  let [viewMode, setViewMode] = useState<"grid" | "text">("grid");
+
   // Create verse data array for FlatList
   let verseData = Array.from({ length: verseCount }, (_, i) => ({ id: i + 1 }));
 
@@ -118,6 +121,51 @@ export default function BibleScreen() {
           </Text>
         </View>
 
+        <View style={styles.toggleContainer}>
+          <Pressable
+            style={[
+              styles.toggleButton,
+              viewMode === "grid" && styles.toggleButtonActive,
+            ]}
+            onPress={() => setViewMode("grid")}
+          >
+            <Text
+              style={[
+                styles.toggleButtonText,
+                viewMode === "grid" && styles.toggleButtonTextActive,
+              ]}
+            >
+              Grid
+            </Text>
+          </Pressable>
+          <Pressable
+            style={[
+              styles.toggleButton,
+              viewMode === "text" && styles.toggleButtonActive,
+            ]}
+            onPress={() => setViewMode("text")}
+          >
+            <Text
+              style={[
+                styles.toggleButtonText,
+                viewMode === "text" && styles.toggleButtonTextActive,
+              ]}
+            >
+              Text
+            </Text>
+          </Pressable>
+        </View>
+
+        {viewMode === "text" ? (
+          <View style={styles.textViewContainer}>
+            <VerseTextView
+              bookName={bookName}
+              chapter={chapterNumber}
+              onVersePress={toggleVerse}
+            />
+          </View>
+        ) : (
+        <>
         <FlatList
           key={`${bookName}-${chapterNumber}`}
           data={verseData}
@@ -185,6 +233,8 @@ export default function BibleScreen() {
             </Text>
           </Pressable>
         </View>
+        </>
+        )}
       </ScrollView>
     </View>
   );
@@ -300,5 +350,32 @@ let styles = StyleSheet.create({
     gap: 12,
     marginHorizontal: SQUARE_SIZE / 2,
     justifyContent: "space-between",
+  },
+  toggleContainer: {
+    flexDirection: "row",
+    alignSelf: "center",
+    marginBottom: 16,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: "#d1d5da",
+    overflow: "hidden",
+  },
+  toggleButton: {
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+  },
+  toggleButtonActive: {
+    backgroundColor: "#0366d6",
+  },
+  toggleButtonText: {
+    fontWeight: "600",
+    color: "#586069",
+  },
+  toggleButtonTextActive: {
+    color: "#fff",
+  },
+  textViewContainer: {
+    minHeight: 300,
+    marginBottom: 24,
   },
 });
