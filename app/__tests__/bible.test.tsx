@@ -13,32 +13,23 @@ jest.mock("expo-router", () => ({
   Link: ({ children }: any) => children,
 }));
 
-let mockVerses = [
-  {
-    id: "GEN.1.1",
-    orgId: "GEN.1.1",
-    bookId: "GEN",
-    chapterId: "GEN.1",
-    bibleId: "de4e12af7f28f599-02",
-    reference: "Genesis 1:1",
-    content: "In the beginning God created the heaven and the earth.",
-  },
-];
-
 function setupMockApi() {
   server.use(
     http.get(
-      `${API_BIBLE_BASE_URL}/bibles/:bibleId/chapters/:chapterId/verses`,
+      `${API_BIBLE_BASE_URL}/bibles/:bibleId/chapters/:chapterId`,
       () => {
         return HttpResponse.json({
-          data: mockVerses,
-          meta: {
-            fums: "",
-            fumsId: "",
-            fumsJsInclude: "",
-            fumsJs: "",
-            fumsNo498Script: "",
+          data: {
+            id: "GEN.1",
+            bibleId: "de4e12af7f28f599-02",
+            bookId: "GEN",
+            number: "1",
+            reference: "Genesis 1",
+            content:
+              "     [1] In the beginning God created the heaven and the earth.",
+            verseCount: 1,
           },
+          meta: { fums: "", fumsId: "", fumsJsInclude: "", fumsJs: "", fumsNoScript: "" },
         });
       }
     )

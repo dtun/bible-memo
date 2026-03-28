@@ -7,7 +7,7 @@ import {
   CHAPTER_CACHED_AT_CELL,
 } from "@/constants/TinyBase";
 import { getChapterId } from "@/constants/ApiBibleMapping";
-import { fetchChapterVerses, DEFAULT_BIBLE_ID } from "@/utils/apiBible";
+import { fetchChapter, parseChapterContent, DEFAULT_BIBLE_ID } from "@/utils/apiBible";
 
 export type VerseText = {
   verse: number;
@@ -18,11 +18,6 @@ let SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
 
 function getCacheKey(bookName: string, chapter: number, bibleId: string) {
   return `${bibleId}-${bookName}-${chapter}`;
-}
-
-function parseVerseNumber(verseId: string): number {
-  let parts = verseId.split(".");
-  return parseInt(parts[parts.length - 1], 10);
 }
 
 export function useChapterText(
@@ -70,12 +65,8 @@ export function useChapterText(
 
       try {
         let chapterId = getChapterId(bookName, chapter);
-        let apiVerses = await fetchChapterVerses(chapterId, bibleId);
-
-        let verses: VerseText[] = apiVerses.map((v) => ({
-          verse: parseVerseNumber(v.id),
-          text: v.content,
-        }));
+        let chapterData = await fetchChapter(chapterId, bibleId);
+        let verses: VerseText[] = parseChapterContent(chapterData.content);
 
         if (!cancelled) {
           store.setRow(CHAPTER_TEXT_TABLE, cacheKey, {

@@ -1,14 +1,14 @@
-export type ApiBibleVerse = {
+export type ApiBibleChapter = {
   id: string;
-  orgId: string;
-  bookId: string;
-  chapterId: string;
   bibleId: string;
+  bookId: string;
+  number: string;
   reference: string;
   content: string;
+  verseCount: number;
 };
 
-export type ApiBibleVersesResponse = {
-  data: ApiBibleVerse[];
-  meta: { fums: string; fumsId: string; fumsJsInclude: string; fumsJs: string; fumsNo498Script: string };
+export type ApiBibleChapterResponse = {
+  data: ApiBibleChapter;
+  meta: { fums: string; fumsId: string; fumsJsInclude: string; fumsJs: string; fumsNoScript: string };
 };

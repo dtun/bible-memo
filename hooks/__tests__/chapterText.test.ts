@@ -5,41 +5,25 @@ import { useChapterText } from "../chapterText";
 import { API_BIBLE_BASE_URL } from "@/utils/apiBible";
 import { AllTheProviders } from "@/components/AllTheProviders";
 
-let mockGenesisVerses = [
-  {
-    id: "GEN.1.1",
-    orgId: "GEN.1.1",
-    bookId: "GEN",
-    chapterId: "GEN.1",
-    bibleId: "de4e12af7f28f599-02",
-    reference: "Genesis 1:1",
-    content: "In the beginning God created the heaven and the earth.",
-  },
-  {
-    id: "GEN.1.2",
-    orgId: "GEN.1.2",
-    bookId: "GEN",
-    chapterId: "GEN.1",
-    bibleId: "de4e12af7f28f599-02",
-    reference: "Genesis 1:2",
-    content: "And the earth was without form, and void.",
-  },
-];
+let mockChapterContent =
+  "     [1] In the beginning God created the heaven and the earth.  [2] And the earth was without form, and void.";
 
-function setupMockApi(verses = mockGenesisVerses) {
+function setupMockApi(content = mockChapterContent) {
   server.use(
     http.get(
-      `${API_BIBLE_BASE_URL}/bibles/:bibleId/chapters/:chapterId/verses`,
+      `${API_BIBLE_BASE_URL}/bibles/:bibleId/chapters/:chapterId`,
       () => {
         return HttpResponse.json({
-          data: verses,
-          meta: {
-            fums: "",
-            fumsId: "",
-            fumsJsInclude: "",
-            fumsJs: "",
-            fumsNo498Script: "",
+          data: {
+            id: "GEN.1",
+            bibleId: "de4e12af7f28f599-02",
+            bookId: "GEN",
+            number: "1",
+            reference: "Genesis 1",
+            content,
+            verseCount: 2,
           },
+          meta: { fums: "", fumsId: "", fumsJsInclude: "", fumsJs: "", fumsNoScript: "" },
         });
       }
     )
@@ -98,7 +82,7 @@ describe("useChapterText", () => {
   it("returns error state on network failure", async () => {
     server.use(
       http.get(
-        `${API_BIBLE_BASE_URL}/bibles/:bibleId/chapters/:chapterId/verses`,
+        `${API_BIBLE_BASE_URL}/bibles/:bibleId/chapters/:chapterId`,
         () => {
           return HttpResponse.error();
         }
@@ -120,7 +104,7 @@ describe("useChapterText", () => {
   it("returns error state on API error", async () => {
     server.use(
       http.get(
-        `${API_BIBLE_BASE_URL}/bibles/:bibleId/chapters/:chapterId/verses`,
+        `${API_BIBLE_BASE_URL}/bibles/:bibleId/chapters/:chapterId`,
         () => {
           return new HttpResponse(null, { status: 500 });
         }
@@ -143,18 +127,20 @@ describe("useChapterText", () => {
     let fetchCount = 0;
     server.use(
       http.get(
-        `${API_BIBLE_BASE_URL}/bibles/:bibleId/chapters/:chapterId/verses`,
+        `${API_BIBLE_BASE_URL}/bibles/:bibleId/chapters/:chapterId`,
         () => {
           fetchCount++;
           return HttpResponse.json({
-            data: mockGenesisVerses,
-            meta: {
-              fums: "",
-              fumsId: "",
-              fumsJsInclude: "",
-              fumsJs: "",
-              fumsNo498Script: "",
+            data: {
+              id: "NUM.1",
+              bibleId: "de4e12af7f28f599-02",
+              bookId: "NUM",
+              number: "1",
+              reference: "Numbers 1",
+              content: mockChapterContent,
+              verseCount: 2,
             },
+            meta: { fums: "", fumsId: "", fumsJsInclude: "", fumsJs: "", fumsNoScript: "" },
           });
         }
       )
