@@ -54,13 +54,22 @@ describe("VerseTextView", () => {
     jest.useFakeTimers();
   });
 
-  it("shows loading indicator initially", () => {
+  it("shows loading indicator initially", async () => {
     setupMockApi();
     render(
       <VerseTextView bookName="genesis" chapter={1} onVersePress={() => {}} />
     );
 
     expect(screen.getByText("Loading verses...")).toBeTruthy();
+
+    // Wait for async fetch to complete before unmount to avoid act() warning
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          "In the beginning God created the heaven and the earth."
+        )
+      ).toBeTruthy();
+    });
   });
 
   it("renders verse text after loading", async () => {

@@ -55,15 +55,22 @@ describe("useChapterText", () => {
     jest.useFakeTimers();
   });
 
-  it("starts in loading state", () => {
+  it("starts in loading state", async () => {
     setupMockApi();
-    let { result } = renderHook(() => useChapterText("genesis", 1), {
-      wrapper: AllTheProviders,
-    });
+    let { result, unmount } = renderHook(
+      () => useChapterText("genesis", 1),
+      { wrapper: AllTheProviders }
+    );
 
     expect(result.current.isLoading).toBe(true);
     expect(result.current.verses).toEqual([]);
     expect(result.current.error).toBeNull();
+
+    // Wait for async fetch to complete before unmount to avoid act() warning
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+    unmount();
   });
 
   it("fetches and returns parsed verses", async () => {

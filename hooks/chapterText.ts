@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useRow, useStore } from "tinybase/ui-react";
 import {
   CHAPTER_TEXT_TABLE,
@@ -33,8 +33,11 @@ export function useChapterText(
   let store = useStore();
   let cacheKey = getCacheKey(bookName, chapter, bibleId);
   let cachedRow = useRow(CHAPTER_TEXT_TABLE, cacheKey);
-  let [isLoading, setIsLoading] = useState(true);
-  let [error, setError] = useState<string | null>(null);
+  let [fetchState, setFetchState] = useState<{
+    status: "idle" | "loading" | "done" | "error";
+    error: string | null;
+    cacheKey: string;
+  }>({ status: "idle", error: null, cacheKey });
   let fetchedRef = useRef<string | null>(null);
 
   let cachedVerses = cachedRow?.[CHAPTER_VERSES_CELL] as string | undefined;
@@ -42,20 +45,20 @@ export function useChapterText(
   let isStale = !cachedAt || Date.now() - cachedAt > SEVEN_DAYS_MS;
   let hasCachedData = !!cachedVerses;
 
+  // Reset fetch state when cacheKey changes
+  if (fetchState.cacheKey !== cacheKey) {
+    setFetchState({ status: "idle", error: null, cacheKey });
+  }
+
   useEffect(() => {
-    // Reset when chapter changes
     if (fetchedRef.current !== cacheKey) {
       fetchedRef.current = null;
     }
 
-    // Serve from cache if fresh
     if (hasCachedData && !isStale) {
-      setIsLoading(false);
-      setError(null);
       return;
     }
 
-    // Already fetched this chapter in this mount
     if (fetchedRef.current === cacheKey) {
       return;
     }
@@ -63,11 +66,7 @@ export function useChapterText(
     let cancelled = false;
 
     async function doFetch() {
-      // If we have stale cached data, don't show loading
-      if (!hasCachedData) {
-        setIsLoading(true);
-      }
-      setError(null);
+      if (!store) return;
 
       try {
         let chapterId = getChapterId(bookName, chapter);
@@ -78,29 +77,28 @@ export function useChapterText(
           text: v.content,
         }));
 
-        if (!cancelled && store) {
+        if (!cancelled) {
           store.setRow(CHAPTER_TEXT_TABLE, cacheKey, {
             [CHAPTER_VERSES_CELL]: JSON.stringify(verses),
             [CHAPTER_BIBLE_ID_CELL]: bibleId,
             [CHAPTER_CACHED_AT_CELL]: Date.now(),
           });
           fetchedRef.current = cacheKey;
+          setFetchState({ status: "done", error: null, cacheKey });
         }
       } catch (err) {
         if (!cancelled) {
-          if (!hasCachedData) {
-            setError(
-              err instanceof Error ? err.message : "Failed to fetch verses"
-            );
-          }
-        }
-      } finally {
-        if (!cancelled) {
-          setIsLoading(false);
+          setFetchState({
+            status: "error",
+            error:
+              err instanceof Error ? err.message : "Failed to fetch verses",
+            cacheKey,
+          });
         }
       }
     }
 
+    setFetchState({ status: "loading", error: null, cacheKey });
     doFetch();
 
     return () => {
@@ -108,9 +106,17 @@ export function useChapterText(
     };
   }, [bookName, chapter, bibleId, cacheKey, store, hasCachedData, isStale]);
 
-  let verses: VerseText[] = cachedVerses
-    ? JSON.parse(cachedVerses)
-    : [];
+  let verses: VerseText[] = cachedVerses ? JSON.parse(cachedVerses) : [];
+
+  let isLoading =
+    fetchState.cacheKey === cacheKey && fetchState.status === "loading";
+
+  let error =
+    fetchState.cacheKey === cacheKey &&
+    fetchState.status === "error" &&
+    !hasCachedData
+      ? fetchState.error
+      : null;
 
   return { verses, isLoading, error };
 }
