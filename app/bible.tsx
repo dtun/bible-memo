@@ -62,7 +62,7 @@ export default function BibleScreen() {
   let s = useMemo(
     () => ({
       container: { flex: 1, backgroundColor: colors.background } as const,
-      contentContainer: { padding: 16 } as const,
+      contentContainer: { paddingVertical: 8 } as const,
       subtitle: { fontSize: 13, color: colors.textTertiary } as const,
       errorText: {
         fontSize: 18,
@@ -89,6 +89,7 @@ export default function BibleScreen() {
         flexDirection: "row" as const,
         gap: 12,
         marginTop: 24,
+        paddingHorizontal: 16,
       },
       button: {
         backgroundColor: colors.buttonPrimary,

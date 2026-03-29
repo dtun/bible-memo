@@ -31,7 +31,7 @@ function VerseRow({
       style={{
         flexDirection: "row",
         paddingVertical: 8,
-        paddingHorizontal: 16,
+        paddingHorizontal: 12,
       }}
       onPress={() => onPress(verse)}
     >
@@ -117,7 +117,7 @@ export function VerseTextView({
         </Text>
         <Pressable
           style={{
-            paddingHorizontal: 16,
+            paddingHorizontal: 12,
             paddingVertical: 8,
             backgroundColor: colors.buttonPrimary,
             borderRadius: 4,
