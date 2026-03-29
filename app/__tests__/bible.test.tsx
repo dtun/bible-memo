@@ -46,29 +46,8 @@ describe("BibleScreen", () => {
     jest.useFakeTimers();
   });
 
-  it("defaults to grid view mode", () => {
+  it("shows verse text directly without a toggle", async () => {
     render(<BibleScreen />);
-
-    expect(screen.getByText("Grid")).toBeTruthy();
-    expect(screen.getByText("Text")).toBeTruthy();
-    // Grid content should be visible (verse squares)
-    expect(screen.getByText("Tap verses to mark as read")).toBeTruthy();
-  });
-
-  it("switches to text view when Text toggle is pressed", async () => {
-    render(<BibleScreen />);
-
-    fireEvent.press(screen.getByText("Text"));
-
-    await waitFor(() => {
-      expect(screen.getByText("Loading verses...")).toBeTruthy();
-    });
-  });
-
-  it("shows verse text in text mode after loading", async () => {
-    render(<BibleScreen />);
-
-    fireEvent.press(screen.getByText("Text"));
 
     await waitFor(() => {
       expect(
@@ -77,23 +56,29 @@ describe("BibleScreen", () => {
         )
       ).toBeTruthy();
     });
+
+    // No grid/text toggle should exist
+    expect(screen.queryByText("Grid")).toBeNull();
+    expect(screen.queryByText("Text")).toBeNull();
   });
 
-  it("switches back to grid view when Grid toggle is pressed", async () => {
+  it("shows progress stats", () => {
     render(<BibleScreen />);
 
-    // Switch to text
-    fireEvent.press(screen.getByText("Text"));
-    await waitFor(() => {
-      expect(
-        screen.getByText(
-          "In the beginning God created the heaven and the earth."
-        )
-      ).toBeTruthy();
-    });
+    expect(screen.getByText(/verses.*read/)).toBeTruthy();
+  });
 
-    // Switch back to grid
-    fireEvent.press(screen.getByText("Grid"));
-    expect(screen.getByText("Tap verses to mark as read")).toBeTruthy();
+  it("shows Mark All Read and Clear All buttons", () => {
+    render(<BibleScreen />);
+
+    expect(screen.getByText("Mark All Read")).toBeTruthy();
+    expect(screen.getByText("Clear All")).toBeTruthy();
+  });
+
+  it("shows Previous and Next navigation", () => {
+    render(<BibleScreen />);
+
+    expect(screen.getByText("Previous")).toBeTruthy();
+    expect(screen.getByText("Next")).toBeTruthy();
   });
 });

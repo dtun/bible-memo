@@ -41,12 +41,15 @@ describe("VerseTextView", () => {
   it("shows loading indicator initially", async () => {
     setupMockApi();
     render(
-      <VerseTextView bookName="genesis" chapter={1} onVersePress={() => {}} />
+      <VerseTextView
+        bookName="genesis"
+        chapter={1}
+        onVersePress={() => {}}
+      />
     );
 
     expect(screen.getByText("Loading verses...")).toBeTruthy();
 
-    // Wait for async fetch to complete before unmount to avoid act() warning
     await waitFor(() => {
       expect(
         screen.getByText(
@@ -59,7 +62,11 @@ describe("VerseTextView", () => {
   it("renders verse text after loading", async () => {
     setupMockApi();
     render(
-      <VerseTextView bookName="genesis" chapter={1} onVersePress={() => {}} />
+      <VerseTextView
+        bookName="genesis"
+        chapter={1}
+        onVersePress={() => {}}
+      />
     );
 
     await waitFor(() => {
@@ -78,7 +85,11 @@ describe("VerseTextView", () => {
   it("renders verse numbers", async () => {
     setupMockApi();
     render(
-      <VerseTextView bookName="genesis" chapter={1} onVersePress={() => {}} />
+      <VerseTextView
+        bookName="genesis"
+        chapter={1}
+        onVersePress={() => {}}
+      />
     );
 
     await waitFor(() => {
@@ -131,5 +142,24 @@ describe("VerseTextView", () => {
     await waitFor(() => {
       expect(screen.getByText("Retry")).toBeTruthy();
     });
+  });
+
+  it("visually distinguishes read verses", async () => {
+    setupMockApi();
+    render(
+      <VerseTextView
+        bookName="genesis"
+        chapter={1}
+        onVersePress={() => {}}
+      />
+    );
+
+    await waitFor(() => {
+      expect(screen.getByTestId("verse-row-1")).toBeTruthy();
+    });
+
+    // Unread verses should have the unread indicator
+    expect(screen.getByTestId("verse-indicator-1")).toBeTruthy();
+    expect(screen.getByTestId("verse-indicator-2")).toBeTruthy();
   });
 });
