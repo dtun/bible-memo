@@ -14,7 +14,11 @@ let HeaderPressable = forwardRef(function HeaderPressable(
   _ref
 ) {
   return (
-    <Pressable onPress={onPress}>
+    <Pressable
+      onPress={onPress}
+      style={{ paddingHorizontal: 8, paddingVertical: 8 }}
+      hitSlop={8}
+    >
       {({ pressed }) => (
         <Text style={{ opacity: pressed ? 0.5 : 1 }}>{title}</Text>
       )}
