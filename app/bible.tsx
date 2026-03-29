@@ -12,6 +12,7 @@ import {
   useClearChapterRead,
 } from "@/hooks/verse";
 import { VerseTextView } from "@/components/VerseTextView";
+import { SafeSpaceBottom } from "@/components/Space";
 
 export default function BibleScreen() {
   let { setParams } = useRouter();
@@ -44,15 +45,17 @@ export default function BibleScreen() {
 
   useEffect(() => {
     let headerTitle = startCase(`${book} ${chapter}`);
-    setOptions({ headerTitle });
+    setOptions({
+      headerTitle,
+      headerTitleStyle: { fontSize: 17, fontWeight: "600" as const },
+    });
   }, [book, chapter]);
 
   let s = useMemo(
     () => ({
       container: { flex: 1, backgroundColor: colors.background } as const,
       contentContainer: { padding: 16 } as const,
-      header: { marginBottom: 16, alignItems: "center" } as const,
-      subtitle: { fontSize: 14, color: colors.textSecondary } as const,
+      subtitle: { fontSize: 13, color: colors.textTertiary } as const,
       errorText: {
         fontSize: 18,
         color: colors.error,
@@ -62,6 +65,7 @@ export default function BibleScreen() {
       nav: {
         flexDirection: "row" as const,
         justifyContent: "space-between" as const,
+        alignItems: "center" as const,
         marginBottom: 16,
       },
       navButton: { paddingVertical: 8 },
@@ -107,12 +111,6 @@ export default function BibleScreen() {
   return (
     <View style={s.container}>
       <ScrollView contentContainerStyle={s.contentContainer}>
-        <View style={s.header}>
-          <Text style={s.subtitle}>
-            {verseCount} verses • {readCount} read ({progressPercentage}%)
-          </Text>
-        </View>
-
         <View style={s.nav}>
           <Pressable
             style={s.navButton}
@@ -122,6 +120,9 @@ export default function BibleScreen() {
           >
             <Text style={s.navText}>Previous</Text>
           </Pressable>
+          <Text style={s.subtitle}>
+            {verseCount} verses • {readCount} read
+          </Text>
           <Pressable
             style={s.navButton}
             onPress={() =>
@@ -148,6 +149,7 @@ export default function BibleScreen() {
             </Text>
           </Pressable>
         </View>
+        <SafeSpaceBottom />
       </ScrollView>
     </View>
   );

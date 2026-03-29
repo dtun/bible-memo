@@ -3,6 +3,7 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { type ReactNode } from "react";
 
 import { useColorScheme } from "./useColorScheme";
@@ -14,14 +15,16 @@ function AllTheProviders({ children }: { children: ReactNode }) {
   let theme = colorScheme === "dark" ? DarkTheme : DefaultTheme;
 
   return (
-    <ProviderStack
-      providers={[
-        [ThemeProvider, { value: theme }],
-        [TinyBaseProvider, {}],
-      ]}
-    >
-      {children}
-    </ProviderStack>
+    <SafeAreaProvider>
+      <ProviderStack
+        providers={[
+          [ThemeProvider, { value: theme }],
+          [TinyBaseProvider, {}],
+        ]}
+      >
+        {children}
+      </ProviderStack>
+    </SafeAreaProvider>
   );
 }
 

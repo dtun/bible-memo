@@ -1,28 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders <SafeSpaceBottom /> 1`] = `
-<RNCSafeAreaProvider
-  onInsetsChange={[Function]}
+<View
   style={
     [
       {
-        "flex": 1,
+        "backgroundColor": "transparent",
       },
-      undefined,
+      {
+        "height": 0,
+      },
     ]
   }
 />
 `;
 
 exports[`renders <SafeSpaceTop /> 1`] = `
-<RNCSafeAreaProvider
-  onInsetsChange={[Function]}
+<View
   style={
     [
       {
-        "flex": 1,
+        "backgroundColor": "transparent",
       },
-      undefined,
+      {
+        "height": 0,
+      },
     ]
   }
 />

@@ -65,7 +65,7 @@ describe("BibleScreen", () => {
   it("shows progress stats", () => {
     render(<BibleScreen />);
 
-    expect(screen.getByText(/verses.*read/)).toBeTruthy();
+    expect(screen.getByText(/verses.*read/i)).toBeTruthy();
   });
 
   it("shows Mark All Read and Clear All buttons", () => {
