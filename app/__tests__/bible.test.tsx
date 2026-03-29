@@ -6,9 +6,11 @@ import BibleScreen from "../bible";
 
 let mockParams = { book: "genesis", chapter: "1" };
 
+let mockSetOptions = jest.fn();
+
 jest.mock("expo-router", () => ({
   useLocalSearchParams: () => mockParams,
-  useNavigation: () => ({ setOptions: jest.fn() }),
+  useNavigation: () => ({ setOptions: mockSetOptions }),
   useRouter: () => ({ setParams: jest.fn() }),
   Link: ({ children }: any) => children,
 }));
@@ -62,10 +64,12 @@ describe("BibleScreen", () => {
     expect(screen.queryByText("Text")).toBeNull();
   });
 
-  it("shows progress stats", () => {
+  it("sets header with progress stats", () => {
     render(<BibleScreen />);
 
-    expect(screen.getByText(/verses.*read/i)).toBeTruthy();
+    expect(mockSetOptions).toHaveBeenCalledWith(
+      expect.objectContaining({ headerTitle: expect.any(Function) })
+    );
   });
 
   it("shows Mark All Read and Clear All buttons", () => {

@@ -44,12 +44,20 @@ export default function BibleScreen() {
   let clearAll = useClearChapterRead(bookName, chapterNumber);
 
   useEffect(() => {
-    let headerTitle = startCase(`${book} ${chapter}`);
+    let title = startCase(`${book} ${chapter}`);
     setOptions({
-      headerTitle,
-      headerTitleStyle: { fontSize: 17, fontWeight: "600" as const },
+      headerTitle: () => (
+        <View style={{ alignItems: "center", backgroundColor: "transparent" }}>
+          <Text style={{ fontSize: 17, fontWeight: "600", color: colors.text }}>
+            {title}
+          </Text>
+          <Text style={{ fontSize: 12, color: colors.textTertiary }}>
+            {verseCount} Verses • {readCount} Read
+          </Text>
+        </View>
+      ),
     });
-  }, [book, chapter]);
+  }, [book, chapter, verseCount, readCount, colors]);
 
   let s = useMemo(
     () => ({
@@ -66,9 +74,13 @@ export default function BibleScreen() {
         flexDirection: "row" as const,
         justifyContent: "space-between" as const,
         alignItems: "center" as const,
-        marginBottom: 16,
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        borderBottomWidth: 1,
+        borderBottomColor: colors.border,
+        backgroundColor: colors.background,
       },
-      navButton: { paddingVertical: 8 },
+      navButton: { paddingVertical: 4 },
       navText: {
         color: colors.textSecondary,
         fontWeight: "600" as const,
@@ -110,29 +122,25 @@ export default function BibleScreen() {
 
   return (
     <View style={s.container}>
+      <View style={s.nav}>
+        <Pressable
+          style={s.navButton}
+          onPress={() =>
+            setParams({ chapter: (chapterNumber - 1).toString() })
+          }
+        >
+          <Text style={s.navText}>Previous</Text>
+        </Pressable>
+        <Pressable
+          style={s.navButton}
+          onPress={() =>
+            setParams({ chapter: (chapterNumber + 1).toString() })
+          }
+        >
+          <Text style={s.navText}>Next</Text>
+        </Pressable>
+      </View>
       <ScrollView contentContainerStyle={s.contentContainer}>
-        <View style={s.nav}>
-          <Pressable
-            style={s.navButton}
-            onPress={() =>
-              setParams({ chapter: (chapterNumber - 1).toString() })
-            }
-          >
-            <Text style={s.navText}>Previous</Text>
-          </Pressable>
-          <Text style={s.subtitle}>
-            {verseCount} verses • {readCount} read
-          </Text>
-          <Pressable
-            style={s.navButton}
-            onPress={() =>
-              setParams({ chapter: (chapterNumber + 1).toString() })
-            }
-          >
-            <Text style={s.navText}>Next</Text>
-          </Pressable>
-        </View>
-
         <VerseTextView
           bookName={bookName}
           chapter={chapterNumber}
