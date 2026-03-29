@@ -32,7 +32,6 @@ function VerseRow({
         flexDirection: "row",
         paddingVertical: 8,
         paddingHorizontal: 16,
-        opacity: isRead ? 0.4 : 1,
       }}
       onPress={() => onPress(verse)}
     >
