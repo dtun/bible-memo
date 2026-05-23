@@ -147,6 +147,62 @@ export function useMarkAllChapterRead(
   }, [store, book, chapter, totalVerses, targetPlanId]);
 }
 
+type LastRead = {
+  book: string;
+  chapter: number;
+  verse: number;
+  timestamp: number;
+};
+
+// Hook to get overall reading statistics across every book
+export function useReadingStats(planId?: number) {
+  let table = useTable(VERSE_READS_TABLE);
+  let currentYear = new Date().getFullYear();
+  let targetPlanId = planId ?? currentYear;
+
+  return useMemo(() => {
+    let versesRead = 0;
+    let books = new Set<string>();
+    let lastRead: LastRead | null = null;
+
+    Object.values(table).forEach((row) => {
+      if (
+        !row ||
+        row[READ_STATUS_CELL] !== true ||
+        row[PLAN_ID_CELL] !== targetPlanId
+      ) {
+        return;
+      }
+
+      versesRead += 1;
+
+      let book = row[BOOK_CELL];
+      let chapter = row[CHAPTER_CELL];
+      let verse = row[VERSE_CELL];
+      let timestamp = typeof row[TIMESTAMP_CELL] === "number"
+        ? row[TIMESTAMP_CELL]
+        : 0;
+
+      if (typeof book !== "string") return;
+      books.add(book);
+
+      if (
+        typeof chapter === "number" &&
+        typeof verse === "number" &&
+        (!lastRead || timestamp > lastRead.timestamp)
+      ) {
+        lastRead = { book, chapter, verse, timestamp };
+      }
+    });
+
+    return {
+      versesRead,
+      booksStarted: books.size,
+      lastRead: lastRead as LastRead | null,
+    };
+  }, [table, targetPlanId]);
+}
+
 // Hook to clear all read verses in a chapter
 export function useClearChapterRead(
   book: string,
