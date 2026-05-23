@@ -1,16 +1,43 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useMemo } from "react";
 import { FlatList, StyleSheet } from "react-native";
-import { Link } from "expo-router";
+import { Link, useLocalSearchParams, useNavigation } from "expo-router";
 import { Text, View } from "@/components/Themed";
 import { bible } from "@/constants/Bible";
+import { nTBookKeys, oTBookKeys } from "@/constants/Books";
 import { SafeSpaceBottom } from "@/components/Space";
 import { startCase } from "@/utils/startCase";
 
 export default function BooksScreen() {
+  let { testament } = useLocalSearchParams<{ testament?: string }>();
+  let { setOptions } = useNavigation();
+
+  let books = useMemo(() => {
+    let allKeys = Object.keys(bible);
+    if (testament === "ot") {
+      let ot = new Set<string>(Object.values(oTBookKeys));
+      return allKeys.filter((key) => ot.has(key));
+    }
+    if (testament === "nt") {
+      let nt = new Set<string>(Object.values(nTBookKeys));
+      return allKeys.filter((key) => nt.has(key));
+    }
+    return allKeys;
+  }, [testament]);
+
+  useEffect(() => {
+    let title =
+      testament === "ot"
+        ? "Old Testament"
+        : testament === "nt"
+          ? "New Testament"
+          : "Books";
+    setOptions({ headerTitle: title });
+  }, [testament]);
+
   return (
     <View style={styles.container}>
       <FlatList
-        data={Object.keys(bible)}
+        data={books}
         renderItem={({ item }) => (
           <Link
             dismissTo
@@ -23,9 +50,7 @@ export default function BooksScreen() {
         style={styles.bookList}
         ListFooterComponent={() => (
           <Fragment>
-            <Text style={styles.footerText}>
-              {`${Object.keys(bible).length} Books`}
-            </Text>
+            <Text style={styles.footerText}>{`${books.length} Books`}</Text>
             <SafeSpaceBottom />
           </Fragment>
         )}
